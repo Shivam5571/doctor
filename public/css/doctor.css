@@ -1,0 +1,215 @@
+/* Hero Section */
+.page-hero {
+  background: url('https://wpthemesgrid.com/themes/medikit/img/bread-bg.jpg') no-repeat center center/cover;
+  height: 300px;
+  position: relative;
+  color: #fff;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust spacing between items */
+  font-size: 14px;
+}
+
+.breadcrumb a {
+  color: #1A76D1;
+  text-decoration: none!important;
+}
+
+.breadcrumb span {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.page-hero .overlay {
+  background-color: rgba(30, 112, 192, 0.8);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+  .overlay a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.overlay a:hover {
+  text-decoration: underline;
+}
+
+
+.page-hero h1 {
+    margin-top: 40px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.page-hero p {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.page-hero a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Doctor Section */
+.doctors-section {
+  padding: 60px 10%;
+  background-color: #fff;
+}
+
+.doctor-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 5px;   /* Very tight horizontal gap */
+  row-gap: 20px;     /* Slight vertical spacing */
+  padding: 0 10px;
+}
+
+.doctor-card {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.doctor-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0; /* No rounded corners */
+}
+
+/* Overlay */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.appointment-hover-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background-color: #1A76D1;
+  font-size: 14px;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: all 0.3s ease;
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #fff !important;
+  overflow: hidden;
+}
+.appointment-hover-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  background-color: #000;
+  z-index: -1;
+  transition: width 0.5s ease, left 0.5s ease;
+}
+
+.appointment-hover-btn::after {
+  display: none;
+}
+
+.appointment-hover-btn:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+.appointment-hover-btn:hover {
+  color: #fff !important;
+}
+
+
+.doctor-card:hover .image-overlay {
+  opacity: 0.5;
+}
+
+.doctor-card:hover .appointment-hover-btn {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* Bottom info */
+.doctor-info {
+  padding: 20px 10px;
+  text-align: center;
+}
+
+.speciality {
+  font-size: 14px;
+  color: #1A76D1;
+  margin-bottom: 5px;
+}
+
+.doctor-info h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.doctor-info h3 a {
+  color: #333;
+  text-decoration: none;
+}
+
+.doctor-info h3 a:hover {
+  color: #1A76D1;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .doctor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .doctor-grid {
+    grid-template-columns: 1fr;
+  }
+}

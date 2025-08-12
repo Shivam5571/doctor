@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Blogs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/doctor.css"> <!-- Assuming blog styles are in your main CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+      body {
+          font-family: 'Poppins', sans-serif;
+      }
+      .blog-title a {
+          color: inherit;
+          text-decoration: none;
+          transition: color 0.3s ease;
+      }
+      .blog-title a:hover {
+          color: #1A76D1;
+      }
+  </style>
+</head>
+<body>
+    <header class="navbar">
+      <div class="logo">Your <span class="highlight">Name</span></div>
+      <ul class="nav-links desktop-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Doctor.html">Doctors</a></li>
+        <li><a href="Service.html">Services</a></li>
+        <li><a href="Blog.html" class="active">Blogs</a></li>
+        <li><a href="Contact.html">Contact Us</a></li>
+      </ul>
+      <a href="Appoinment.html" class="appointment-btn">Appointment</a>
+    </header>
+
+    <section class="page-hero">
+      <div class="overlay">
+        <h1>Our Latest Blogs</h1>
+        <p class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span>&gt;</span>
+          <span>Blogs</span>
+        </p>
+      </div>
+    </section>
+
+    <section id="blogs" class="blogs-section">
+      <div class="blogs-grid" id="blogs-list-public">
+        <p style="text-align: center; grid-column: 1 / -1;">Loading blogs...</p>
+      </div>
+    </section>
+
+    <footer class="footer-section">
+  <div class="footer-container">
+
+    <!-- About Us -->
+    <div class="footer-column">
+      <h3>About Us</h3>
+      <div class="footer-line"></div>
+      <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-vimeo-v"></i></a>
+        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <div class="footer-line"></div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="Contact.html">About Us</a></li>
+        <li><a href="Service.html">Services</a></li>
+        <li><a href="#">Our Cases</a></li>
+        <li><a href="#">Other Links</a></li>
+        <li><a href="Appoinment.html">Appoinment</a></li>
+        <li><a href="#">Finance</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="Contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Open Hours -->
+    <div class="footer-column">
+      <h3>Open Hours</h3>
+      <div class="footer-line"></div>
+      <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
+      <ul class="open-hours">
+        <li><span>Monday - Friday:</span> 8.00–20.00</li>
+        <li><span>Saturday:</span> 9.00–18.30</li>
+        <li><span>Monday - Thursday:</span> 9.00–15.00</li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-column">
+      <h3>Newsletter</h3>
+      <div class="footer-line"></div>
+      <p>Subscribe to our newsletter to get all our news in your inbox.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Email Address" required>
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const blogsListContainer = document.getElementById('blogs-list-public');
+        const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+        blogsListContainer.innerHTML = '';
+
+        if (blogs.length === 0) {
+          blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No blog posts have been added yet.</p>';
+        } else {
+          blogs.forEach(blog => {
+            const blogCardHTML = `
+              <div class="blog-card">
+                <img src="${blog.image}" alt="Blog Image for ${blog.title}">
+                <div class="blog-content">
+                  <div class="blog-date">${blog.date}</div>
+                  
+                  <!-- UPDATE: Title ab ek link hai -->
+                  <div class="blog-title"><a href="blog-detail.html?id=${blog.id}">${blog.title}</a></div>
+                  
+                  <div class="blog-desc">${blog.excerpt}</div>
+                </div>
+              </div>
+            `;
+            blogsListContainer.innerHTML += blogCardHTML;
+          });
+        }
+      });
+    </script>
+</body>
+</html>

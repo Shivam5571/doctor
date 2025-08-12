@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
+        .blog-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; color: #6b7280; font-size: 0.9rem; margin-top: 1rem; margin-bottom: 1.5rem; }
+        .blog-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .blog-content p { line-height: 1.8; margin-bottom: 1.5rem; color: #4b5563; }
+        .blog-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
+        .comment-card { display: flex; gap: 1rem; }
+        .comment-card img { width: 50px; height: 50px; border-radius: 50%; }
+        .rating .fa-star { color: #d1d5db; }
+        .rating .fa-star.selected { color: #f59e0b; }
+        .rating-input .fa-star { cursor: pointer; transition: color 0.2s; }
+        .comment-form-section h2, .comments-section h2 { padding-bottom: 0.75rem; border-bottom: 2px solid #f3f4f6; }
+        .reply-btn { background: none; border: none; color: #1A76D1; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .replies-container { margin-left: 3.5rem; border-left: 2px solid #e5e7eb; padding-left: 1rem; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+      <div class="logo">Your <span class="highlight">Name</span></div>
+      <ul class="nav-links desktop-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Doctor.html">Doctors</a></li>
+        <li><a href="Service.html">Services</a></li>
+        <li><a href="Blog.html" class="active">Blogs</a></li>
+        <li><a href="Contact.html">Contact Us</a></li>
+      </ul>
+      <a href="Appoinment.html" class="appointment-btn">Appointment</a>
+    </header>
+
+    <section class="page-hero">
+      <div class="overlay">
+        <h1>Blog Details</h1>
+        <p class="breadcrumb"><a href="index.html">Home</a><span>&gt;</span><a href="Blog.html">Blogs</a><span>&gt;</span><span id="breadcrumb-blog-title"></span></p>
+      </div>
+    </section>
+
+    <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+            <img id="blog-image" src="" alt="" class="w-full h-96 object-cover rounded-lg mb-6">
+            <h1 id="blog-title" class="text-4xl font-bold text-gray-800"></h1>
+            <div class="blog-meta">
+                <span><i class="fas fa-user"></i><span id="blog-author"></span></span>
+                <span><i class="fas fa-calendar-alt"></i><span id="blog-date"></span></span>
+                <span><i class="fas fa-tags"></i><span id="blog-tags"></span></span>
+            </div>
+            <div id="blog-content" class="blog-content border-t pt-8 mt-4"></div>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <div id="comments-section" class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">All Comments</h2>
+                <div id="comments-list" class="space-y-6"></div>
+            </div>
+            <div id="comment-form-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Leave a Comment</h2>
+                <form id="comment-form" class="space-y-4">
+                    <div><label for="comment-name" class="block text-sm font-medium text-gray-700">Your Name</label><input type="text" id="comment-name" required class="mt-1 block w-full p-3 border rounded-md"></div>
+                    <div><label for="comment-text" class="block text-sm font-medium text-gray-700">Your Comment</label><textarea id="comment-text" rows="5" required class="mt-1 block w-full p-3 border rounded-md"></textarea></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Your Rating</label><div class="rating-input flex items-center gap-1 text-2xl mt-1"><i class="fas fa-star" data-value="1"></i><i class="fas fa-star" data-value="2"></i><i class="fas fa-star" data-value="3"></i><i class="fas fa-star" data-value="4"></i><i class="fas fa-star" data-value="5"></i><input type="hidden" id="comment-rating" value="0" required></div></div>
+                    <div class="text-right"><button type="submit" class="inline-flex justify-center py-2 px-6 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Submit</button></div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer-section"></footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const blogId = urlParams.get('id');
+            if (!blogId) { return; }
+
+            const allBlogs = JSON.parse(localStorage.getItem('blogs')) || [];
+            const blog = allBlogs.find(b => b.id == blogId);
+            if (!blog) { return; }
+
+            // Populate blog content
+            document.getElementById('breadcrumb-blog-title').textContent = blog.title;
+            document.getElementById('blog-image').src = blog.image;
+            document.getElementById('blog-title').textContent = blog.title;
+            document.getElementById('blog-author').textContent = blog.author;
+            document.getElementById('blog-date').textContent = blog.date;
+            document.getElementById('blog-tags').textContent = blog.tags || 'General';
+            document.getElementById('blog-content').innerHTML = blog.content;
+
+            // --- COMMENTS LOGIC ---
+            const commentsList = document.getElementById('comments-list');
+            const commentForm = document.getElementById('comment-form');
+            const ratingStars = document.querySelectorAll('.rating-input .fa-star');
+            const ratingInput = document.getElementById('comment-rating');
+
+            let allComments = JSON.parse(localStorage.getItem('comments')) || {};
+            let blogComments = allComments[blogId] || [];
+
+            const saveComments = () => {
+                allComments[blogId] = blogComments;
+                localStorage.setItem('comments', JSON.stringify(allComments));
+            };
+
+            const renderComments = () => {
+                commentsList.innerHTML = '';
+                if (blogComments.length === 0) {
+                    commentsList.innerHTML = '<p class="text-gray-500">No comments yet. Be the first to comment!</p>';
+                    return;
+                }
+                blogComments.forEach(comment => {
+                    let starsHTML = '';
+                    for (let i = 1; i <= 5; i++) { starsHTML += `<i class="fas fa-star ${i <= comment.rating ? 'selected' : ''}"></i>`; }
+                    
+                    let repliesHTML = '<div class="replies-container mt-4 space-y-4">';
+                    if(comment.replies && comment.replies.length > 0) {
+                        comment.replies.forEach(reply => {
+                            repliesHTML += `
+                                <div class="comment-card">
+                                    <img src="https://placehold.co/100x100/EBF4FF/7F9CF5?text=${reply.name.charAt(0).toUpperCase()}" alt="">
+                                    <div class="flex-grow">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-bold text-gray-800">${reply.name}</h4>
+                                            <span class="text-xs text-gray-500">${reply.date}</span>
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-1">${reply.text}</p>
+                                    </div>
+                                </div>`;
+                        });
+                    }
+                    repliesHTML += '</div>';
+
+                    const commentHTML = `
+                        <div class="comment-wrapper border-t pt-6">
+                            <div class="comment-card">
+                                <img src="https://placehold.co/100x100/EBF4FF/7F9CF5?text=${comment.name.charAt(0).toUpperCase()}" alt="">
+                                <div class="flex-grow">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-bold text-gray-800">${comment.name}</h4>
+                                        <span class="text-xs text-gray-500">${comment.date}</span>
+                                    </div>
+                                    <div class="rating text-sm my-1">${starsHTML}</div>
+                                    <p class="text-gray-600 text-sm">${comment.text}</p>
+                                    <button class="reply-btn mt-2" data-comment-id="${comment.id}">Reply</button>
+                                </div>
+                            </div>
+                            ${repliesHTML}
+                        </div>`;
+                    commentsList.innerHTML += commentHTML;
+                });
+            };
+
+            // Star rating interaction
+            ratingStars.forEach(star => {
+                star.addEventListener('mouseover', () => { const hoverValue = star.dataset.value; ratingStars.forEach(s => s.style.color = s.dataset.value <= hoverValue ? '#f59e0b' : '#d1d5db'); });
+                star.addEventListener('mouseout', () => { const selectedValue = ratingInput.value; ratingStars.forEach(s => s.style.color = s.dataset.value <= selectedValue ? '#f59e0b' : '#d1d5db'); });
+                star.addEventListener('click', () => { ratingInput.value = star.dataset.value; });
+            });
+
+            // Main comment form submission
+            commentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const newComment = {
+                    id: Date.now(),
+                    name: document.getElementById('comment-name').value,
+                    text: document.getElementById('comment-text').value,
+                    rating: ratingInput.value,
+                    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    replies: []
+                };
+                if (newComment.rating == 0) { alert('Please provide a rating.'); return; }
+                blogComments.push(newComment);
+                saveComments();
+                renderComments();
+                commentForm.reset();
+                ratingInput.value = 0;
+                ratingStars.forEach(s => s.style.color = '#d1d5db');
+            });
+
+            // Event delegation for reply buttons
+            commentsList.addEventListener('click', function(e) {
+                if (e.target.classList.contains('reply-btn')) {
+                    const parentCommentId = e.target.dataset.commentId;
+                    const parentCommentWrapper = e.target.closest('.comment-wrapper');
+                    document.querySelector('.reply-form-container')?.remove();
+                    const replyFormContainer = document.createElement('div');
+                    replyFormContainer.className = 'reply-form-container mt-4 ml-14';
+                    replyFormContainer.innerHTML = `
+                        <form class="reply-form space-y-2" data-parent-id="${parentCommentId}">
+                            <input type="text" placeholder="Your Name" class="block w-full p-2 border text-sm rounded-md" required>
+                            <textarea rows="3" placeholder="Write a reply..." class="block w-full p-2 border text-sm rounded-md" required></textarea>
+                            <div class="text-right">
+                                <button type="submit" class="text-xs py-1 px-3 rounded-md text-white bg-blue-500 hover:bg-blue-600">Post Reply</button>
+                            </div>
+                        </form>
+                    `;
+                    parentCommentWrapper.appendChild(replyFormContainer);
+                }
+            });
+
+            // Event delegation for reply form submissions
+            commentsList.addEventListener('submit', function(e) {
+                if (e.target.classList.contains('reply-form')) {
+                    e.preventDefault();
+                    const parentId = e.target.dataset.parentId;
+                    const nameInput = e.target.querySelector('input[type="text"]');
+                    const textInput = e.target.querySelector('textarea');
+
+                    const newReply = {
+                        name: nameInput.value,
+                        text: textInput.value,
+                        date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                    };
+
+                    // BUG FIX: Used parseInt to correctly match the ID type
+                    const parentComment = blogComments.find(c => c.id === parseInt(parentId));
+                    if (parentComment) {
+                        if (!parentComment.replies) {
+                            parentComment.replies = []; // Ensure replies array exists
+                        }
+                        parentComment.replies.push(newReply);
+                        saveComments();
+                        renderComments();
+                    }
+                }
+            });
+
+            renderComments();
+        });
+    </script>
+
+</body>
+</html>

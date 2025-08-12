@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .modal { transition: opacity 0.3s ease; overflow-y: auto; }
+        .modal-content { transition: transform 0.3s ease; }
+        .form-section-title { font-weight: 600; color: #1A76D1; margin-top: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; }
+        #blog-editor { height: 300px; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Sidebar -->
+    <aside class="sidebar bg-gray-800 text-white w-64 min-h-screen p-4 fixed z-20">
+        <div class="text-2xl font-bold mb-8">Admin Panel</div>
+        <nav>
+            <ul>
+                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded hover:bg-gray-700" data-target="dashboard"><i class="fas fa-tachometer-alt w-6"></i><span class="ml-3">Dashboard</span></a></li>
+                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded hover:bg-gray-700" data-target="doctors"><i class="fas fa-user-md w-6"></i><span class="ml-3">Doctors</span></a></li>
+                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded hover:bg-gray-700" data-target="services"><i class="fas fa-concierge-bell w-6"></i><span class="ml-3">Services</span></a></li>
+                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded hover:bg-gray-700" data-target="blogs"><i class="fas fa-blog w-6"></i><span class="ml-3">Blogs</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content ml-64 p-8">
+        <section id="dashboard" class="content-section"><h1 class="text-3xl font-bold text-gray-800">Dashboard</h1></section>
+        <section id="doctors" class="content-section hidden">
+            <div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Doctors</h1><button id="add-doctor-btn" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Add New Doctor</button></div>
+            <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Doctors</h2><div id="doctors-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div>
+        </section>
+        <section id="services" class="content-section hidden"><h1 class="text-3xl font-bold text-gray-800">Manage Services</h1></section>
+        <section id="blogs" class="content-section hidden">
+            <div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Blogs</h1><button id="add-blog-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700"><i class="fas fa-plus mr-2"></i>Add New Blog</button></div>
+            <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Blogs</h2><div id="blogs-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="doctor-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30">
+        <div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl transform scale-95 my-8">
+            <div class="flex justify-between items-center mb-6"><h2 id="doctor-modal-title" class="text-2xl font-semibold"></h2><button id="close-doctor-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div>
+            <form id="doctor-form" class="space-y-4"></form>
+        </div>
+    </div>
+    <div id="blog-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30">
+        <div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-4xl transform scale-95 my-8">
+            <div class="flex justify-between items-center mb-6"><h2 id="blog-modal-title" class="text-2xl font-semibold"></h2><button id="close-blog-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div>
+            <form id="blog-form" class="space-y-4"></form>
+        </div>
+    </div>
+    <div id="comments-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30">
+        <div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl transform scale-95 my-8">
+            <div class="flex justify-between items-center mb-6"><h2 id="comments-modal-title" class="text-2xl font-semibold">Manage Comments</h2><button id="close-comments-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div>
+            <div id="comments-modal-list" class="space-y-4"></div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- SHARED NAVIGATION LOGIC ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('data-target');
+                navLinks.forEach(l => l.classList.remove('active-link', 'bg-gray-700'));
+                link.classList.add('active-link', 'bg-gray-700');
+                contentSections.forEach(s => s.id === targetId ? s.classList.remove('hidden') : s.classList.add('hidden'));
+            });
+        });
+        document.querySelector('.nav-link[data-target="dashboard"]').click();
+
+        // --- DOCTORS LOGIC (Complete & Fixed) ---
+        const doctorFormEl = document.getElementById('doctor-form');
+        const doctorsList = document.getElementById('doctors-list');
+        const doctorModal = document.getElementById('doctor-modal');
+        const addDoctorBtn = document.getElementById('add-doctor-btn');
+        const closeDoctorModalBtn = document.getElementById('close-doctor-modal-btn');
+        const doctorModalTitle = document.getElementById('doctor-modal-title');
+        doctorFormEl.innerHTML = `<input type="hidden" id="edit-doctor-index"><h3 class="form-section-title">Basic Information</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-name" class="block text-sm font-medium text-gray-700">Doctor Name</label><input type="text" id="doctor-name" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-image" class="block text-sm font-medium text-gray-700">Doctor Image</label><input type="file" id="doctor-image" accept="image/*" class="mt-1 block w-full"></div><div><label for="doctor-speciality" class="block text-sm font-medium text-gray-700">Speciality</label><select id="doctor-speciality" required class="mt-1 block w-full px-3 py-2 border bg-white rounded-md"><option value="">Select Speciality</option><option value="Psychiatrist">Psychiatrist</option><option value="Clinical Psychologist">Clinical Psychologist</option></select></div><div><label for="doctor-qualification" class="block text-sm font-medium text-gray-700">Qualifications</label><input type="text" id="doctor-qualification" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div><label for="doctor-bio" class="block text-sm font-medium text-gray-700">Biography</label><textarea id="doctor-bio" rows="4" class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Education</h3><div><label for="doctor-education" class="block text-sm font-medium text-gray-700">Degrees (Har degree ek nayi line mein)</label><textarea id="doctor-education" rows="4" class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Contact & Social Media</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-phone" class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="doctor-phone" class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-email" class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="doctor-email" class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-location" class="block text-sm font-medium text-gray-700">Location / Chamber</label><input type="text" id="doctor-location" class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label><input type="url" id="doctor-linkedin" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><h3 class="form-section-title">Working Hours</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="doctor-hours-mf" class="block text-sm font-medium text-gray-700">Monday - Friday</label><input type="text" id="doctor-hours-mf" class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sat" class="block text-sm font-medium text-gray-700">Saturday</label><input type="text" id="doctor-hours-sat" class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sun" class="block text-sm font-medium text-gray-700">Sunday</label><input type="text" id="doctor-hours-sun" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Doctor</button></div>`;
+        let doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+        const saveDoctors = () => localStorage.setItem('doctors', JSON.stringify(doctors));
+        const openDoctorModal = () => doctorModal.classList.remove('hidden');
+        const closeDoctorModal = () => { doctorModal.classList.add('hidden'); doctorFormEl.reset(); document.getElementById('edit-doctor-index').value = ''; };
+        addDoctorBtn.addEventListener('click', () => { doctorModalTitle.textContent = 'Add New Doctor'; openDoctorModal(); });
+        closeDoctorModalBtn.addEventListener('click', closeDoctorModal);
+        const renderDoctors = () => { doctorsList.innerHTML = ''; doctors.forEach((doc, index) => { doctorsList.innerHTML += `<div class="bg-gray-50 p-4 rounded-lg shadow-sm border flex flex-col"><img src="${doc.image}" alt="${doc.name}" class="w-full h-48 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold">${doc.name}</h3><p class="text-blue-600 font-semibold">${doc.speciality}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-doctor-btn" data-index="${index}"><i class="fas fa-edit"></i> Edit</button><button class="text-red-500 hover:text-red-700 delete-doctor-btn" data-index="${index}"><i class="fas fa-trash-alt"></i> Delete</button></div></div>`; }); };
+        doctorFormEl.addEventListener('submit', function(e) { e.preventDefault(); const editIndex = document.getElementById('edit-doctor-index').value; const imageFile = document.getElementById('doctor-image').files[0]; const processDoctorSubmit = (imageData) => { const doctorData = { id: editIndex ? doctors[editIndex].id : Date.now(), name: document.getElementById('doctor-name').value, image: imageData, speciality: document.getElementById('doctor-speciality').value, qualification: document.getElementById('doctor-qualification').value, bio: document.getElementById('doctor-bio').value, education: document.getElementById('doctor-education').value, phone: document.getElementById('doctor-phone').value, email: document.getElementById('doctor-email').value, location: document.getElementById('doctor-location').value, linkedin: document.getElementById('doctor-linkedin').value, hours: { mf: document.getElementById('doctor-hours-mf').value, sat: document.getElementById('doctor-hours-sat').value, sun: document.getElementById('doctor-hours-sun').value, } }; if (editIndex) { doctors[editIndex] = doctorData; } else { doctors.push(doctorData); } saveDoctors(); renderDoctors(); closeDoctorModal(); }; if (imageFile) { const reader = new FileReader(); reader.onload = (event) => processDoctorSubmit(event.target.result); reader.readAsDataURL(imageFile); } else if (editIndex) { processDoctorSubmit(doctors[editIndex].image); } else { alert('Please select an image for a new doctor.'); } });
+        doctorsList.addEventListener('click', function(e) { const editBtn = e.target.closest('.edit-doctor-btn'); const deleteBtn = e.target.closest('.delete-doctor-btn'); if (editBtn) { const index = editBtn.dataset.index; const doc = doctors[index]; doctorModalTitle.textContent = 'Edit Doctor'; document.getElementById('edit-doctor-index').value = index; document.getElementById('doctor-name').value = doc.name; document.getElementById('doctor-speciality').value = doc.speciality; document.getElementById('doctor-qualification').value = doc.qualification; document.getElementById('doctor-bio').value = doc.bio; document.getElementById('doctor-education').value = doc.education; document.getElementById('doctor-phone').value = doc.phone; document.getElementById('doctor-email').value = doc.email; document.getElementById('doctor-location').value = doc.location; document.getElementById('doctor-linkedin').value = doc.linkedin; if(doc.hours){ document.getElementById('doctor-hours-mf').value = doc.hours.mf; document.getElementById('doctor-hours-sat').value = doc.hours.sat; document.getElementById('doctor-hours-sun').value = doc.hours.sun; } openDoctorModal(); } if (deleteBtn) { const index = deleteBtn.dataset.index; if (confirm('Are you sure you want to delete this doctor?')) { doctors.splice(index, 1); saveDoctors(); renderDoctors(); } } });
+        renderDoctors();
+
+        // --- BLOGS LOGIC (with Comment Management) ---
+        const blogFormEl = document.getElementById('blog-form');
+        const blogsList = document.getElementById('blogs-list');
+        const blogModal = document.getElementById('blog-modal');
+        const addBlogBtn = document.getElementById('add-blog-btn');
+        const closeBlogModalBtn = document.getElementById('close-blog-modal-btn');
+        const blogModalTitle = document.getElementById('blog-modal-title');
+        blogFormEl.innerHTML = `<input type="hidden" id="edit-blog-index"><h3 class="form-section-title">Blog Details</h3><div><label for="blog-title" class="block text-sm font-medium">Blog Title</label><input type="text" id="blog-title" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-author" class="block text-sm font-medium">Author Name</label><input type="text" id="blog-author" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-image" class="block text-sm font-medium">Main Blog Image</label><input type="file" id="blog-image" accept="image/*" class="mt-1 block w-full"> <small class="text-gray-500">Only choose if you want to replace the main image.</small></div><div><label for="blog-tags" class="block text-sm font-medium">Tags (comma separated)</label><input type="text" id="blog-tags" class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-excerpt" class="block text-sm font-medium">Excerpt (Short Summary)</label><textarea id="blog-excerpt" rows="3" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div><label class="block text-sm font-medium">Full Content</label><div id="blog-editor" class="mt-1 bg-white"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-green-600 hover:bg-green-700">Save Blog</button></div>`;
+        let blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+        const saveBlogs = () => localStorage.setItem('blogs', JSON.stringify(blogs));
+        const quill = new Quill('#blog-editor', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, 4, false] }], ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], [{ 'align': [] }], ['link', 'image', 'video'], ['clean'] ] } });
+        const openBlogModal = () => blogModal.classList.remove('hidden');
+        const closeBlogModal = () => { blogModal.classList.add('hidden'); blogFormEl.reset(); quill.root.innerHTML = ''; document.getElementById('edit-blog-index').value = ''; };
+        addBlogBtn.addEventListener('click', () => { blogModalTitle.textContent = 'Add New Blog'; openBlogModal(); });
+        closeBlogModalBtn.addEventListener('click', closeBlogModal);
+        const renderBlogs = () => {
+            blogsList.innerHTML = '';
+            blogs.forEach((blog, index) => {
+                blogsList.innerHTML += `
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm border flex flex-col">
+                        <img src="${blog.image}" alt="${blog.title}" class="w-full h-40 object-cover rounded-md mb-4">
+                        <div class="flex-grow">
+                            <h3 class="text-lg font-bold truncate">${blog.title}</h3>
+                            <p class="text-gray-500 text-sm mb-2">by ${blog.author}</p>
+                        </div>
+                        <div class="mt-4 text-right">
+                            <button class="text-yellow-500 hover:text-yellow-700 mr-2 view-comments-btn" data-index="${index}"><i class="fas fa-comments"></i> Comments</button>
+                            <button class="text-blue-500 hover:text-blue-700 mr-2 edit-blog-btn" data-index="${index}"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="text-red-500 hover:text-red-700 delete-blog-btn" data-index="${index}"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>`;
+            });
+        };
+        blogFormEl.addEventListener('submit', function(e) { e.preventDefault(); const editIndex = document.getElementById('edit-blog-index').value; const imageFile = document.getElementById('blog-image').files[0]; const content = quill.root.innerHTML; if (content === '<p><br></p>') { alert('Please write some content for the blog.'); return; } const processBlogSubmit = (imageData) => { const blogData = { id: editIndex ? blogs[editIndex].id : Date.now(), title: document.getElementById('blog-title').value, author: document.getElementById('blog-author').value, tags: document.getElementById('blog-tags').value, excerpt: document.getElementById('blog-excerpt').value, content: content, image: imageData, date: editIndex ? blogs[editIndex].date : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }; if (editIndex) { blogs[editIndex] = blogData; } else { blogs.push(blogData); } saveBlogs(); renderBlogs(); closeBlogModal(); }; if (imageFile) { const reader = new FileReader(); reader.onload = (event) => processBlogSubmit(event.target.result); reader.readAsDataURL(imageFile); } else if (editIndex) { processBlogSubmit(blogs[editIndex].image); } else { alert('Please select a main image for a new blog post.'); } });
+        blogsList.addEventListener('click', function(e) {
+            const editBtn = e.target.closest('.edit-blog-btn');
+            const deleteBtn = e.target.closest('.delete-blog-btn');
+            const commentsBtn = e.target.closest('.view-comments-btn');
+            if (editBtn) { const index = editBtn.dataset.index; const blog = blogs[index]; blogModalTitle.textContent = 'Edit Blog Post'; document.getElementById('edit-blog-index').value = index; document.getElementById('blog-title').value = blog.title; document.getElementById('blog-author').value = blog.author; document.getElementById('blog-tags').value = blog.tags; document.getElementById('blog-excerpt').value = blog.excerpt; quill.root.innerHTML = blog.content; openBlogModal(); }
+            if (deleteBtn) { const index = deleteBtn.dataset.index; if (confirm('Are you sure you want to delete this blog post?')) { blogs.splice(index, 1); saveBlogs(); renderBlogs(); } }
+            if (commentsBtn) { const index = commentsBtn.dataset.index; const blog = blogs[index]; commentsModalTitle.textContent = `Comments for "${blog.title}"`; renderCommentsInModal(blog.id); commentsModal.classList.remove('hidden'); }
+        });
+        renderBlogs();
+
+        // --- COMMENTS MANAGEMENT LOGIC ---
+        const commentsModal = document.getElementById('comments-modal');
+        const closeCommentsModalBtn = document.getElementById('close-comments-modal-btn');
+        const commentsModalList = document.getElementById('comments-modal-list');
+        const commentsModalTitle = document.getElementById('comments-modal-title');
+        let allComments = JSON.parse(localStorage.getItem('comments')) || {};
+        const saveAllComments = () => localStorage.setItem('comments', JSON.stringify(allComments));
+
+        const renderCommentsInModal = (blogId) => {
+            commentsModalList.innerHTML = '';
+            const blogComments = allComments[blogId] || [];
+            if (blogComments.length === 0) {
+                commentsModalList.innerHTML = '<p class="text-gray-500">No comments for this post.</p>';
+                return;
+            }
+            blogComments.forEach((comment, commentIndex) => {
+                let repliesHTML = '<div class="ml-8 mt-2 space-y-2 border-l-2 pl-4">';
+                if (comment.replies && comment.replies.length > 0) {
+                    comment.replies.forEach((reply, replyIndex) => {
+                        repliesHTML += `<div class="flex justify-between items-start text-sm"><div><strong>${reply.name}:</strong> ${reply.text}</div><button class="text-red-500 hover:text-red-700 delete-reply-btn" data-blog-id="${blogId}" data-comment-index="${commentIndex}" data-reply-index="${replyIndex}"><i class="fas fa-trash"></i></button></div>`;
+                    });
+                }
+                repliesHTML += '</div>';
+                commentsModalList.innerHTML += `<div class="p-2 border rounded"><div class="flex justify-between items-start"><div><strong>${comment.name}:</strong> ${comment.text}</div><button class="text-red-500 hover:text-red-700 delete-comment-btn" data-blog-id="${blogId}" data-comment-index="${commentIndex}"><i class="fas fa-trash"></i></button></div>${repliesHTML}</div>`;
+            });
+        };
+
+        commentsModalList.addEventListener('click', function(e) {
+            const deleteCommentBtn = e.target.closest('.delete-comment-btn');
+            const deleteReplyBtn = e.target.closest('.delete-reply-btn');
+            if (deleteCommentBtn) { const { blogId, commentIndex } = deleteCommentBtn.dataset; if (confirm('Are you sure you want to delete this comment and all its replies?')) { allComments[blogId].splice(commentIndex, 1); saveAllComments(); renderCommentsInModal(blogId); } }
+            if (deleteReplyBtn) { const { blogId, commentIndex, replyIndex } = deleteReplyBtn.dataset; if (confirm('Are you sure you want to delete this reply?')) { allComments[blogId][commentIndex].replies.splice(replyIndex, 1); saveAllComments(); renderCommentsInModal(blogId); } }
+        });
+        closeCommentsModalBtn.addEventListener('click', () => commentsModal.classList.add('hidden'));
+    });
+    </script>
+</body>
+</html>

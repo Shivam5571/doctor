@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <!-- Poppins font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+        }
+        .contact-card {
+            background-color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 0.75rem;
+        }
+        .contact-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .contact-card .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .contact-card .info-item i {
+            color: #1A76D1;
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+            margin-top: 4px;
+        }
+        .working-hours-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .working-hours-item:last-child {
+            border-bottom: none;
+        }
+        .info-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1A76D1;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .info-section p, .info-section li {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .info-section ul li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .info-section ul li::before {
+            content: '✓';
+            color: #1A76D1;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+      <div class="logo">Your <span class="highlight">Name</span></div>
+      <ul class="nav-links desktop-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Doctor.html" class="active">Doctors</a></li>
+        <li><a href="Service.html">Services</a></li>
+        <li><a href="Blog.html">Blogs</a></li>
+        <li><a href="Contact.html">Contact Us</a></li>
+      </ul>
+      <a href="Appoinment.html" class="appointment-btn">Appointment</a>
+    </header>
+
+    <section class="page-hero">
+      <div class="overlay">
+        <h1>Doctor Details</h1>
+        <p class="breadcrumb"><a href="index.html">Home</a><span>&gt;</span><a href="Doctor.html">Doctors</a><span>&gt;</span><span id="breadcrumb-doc-name"></span></p>
+      </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 my-8">
+            
+            <div class="lg:col-span-4 contact-card p-8">
+                <img id="doc-image" src="" alt="" class="w-full rounded-lg mb-8 shadow-md">
+                <h3>Contact Info</h3>
+                <div id="contact-info-container"></div>
+                <div id="social-links-container" class="flex space-x-4 mt-4 mb-8"></div>
+                <h3>Working Hours</h3>
+                <div id="working-hours-container"></div>
+            </div>
+
+            <div class="lg:col-span-8 info-section pt-4">
+                <h2 id="doc-name" class="text-4xl font-bold text-gray-800"></h2>
+                <p id="doc-qualification" class="text-xl text-gray-500 mt-1 mb-8"></p>
+                <h3>Biography</h3>
+                <p id="doc-bio" class="mb-8"></p>
+                <h3>Education</h3>
+                <ul id="doc-education" class="mb-8"></ul>
+            </div>
+
+        </div>
+    </main>
+    
+    <footer class="footer-section">
+  <div class="footer-container">
+
+    <!-- About Us -->
+    <div class="footer-column">
+      <h3>About Us</h3>
+      <div class="footer-line"></div>
+      <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-vimeo-v"></i></a>
+        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <div class="footer-line"></div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="Contact.html">About Us</a></li>
+        <li><a href="Service.html">Services</a></li>
+        <li><a href="#">Our Cases</a></li>
+        <li><a href="#">Other Links</a></li>
+        <li><a href="Appoinment.html">Appoinment</a></li>
+        <li><a href="#">Finance</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="Contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Open Hours -->
+    <div class="footer-column">
+      <h3>Open Hours</h3>
+      <div class="footer-line"></div>
+      <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
+      <ul class="open-hours">
+        <li><span>Monday - Friday:</span> 8.00–20.00</li>
+        <li><span>Saturday:</span> 9.00–18.30</li>
+        <li><span>Monday - Thursday:</span> 9.00–15.00</li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-column">
+      <h3>Newsletter</h3>
+      <div class="footer-line"></div>
+      <p>Subscribe to our newsletter to get all our news in your inbox.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Email Address" required>
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const doctorId = urlParams.get('id');
+            if (!doctorId) { return; }
+
+            const allDoctors = JSON.parse(localStorage.getItem('doctors')) || [];
+            const doctor = allDoctors.find(d => d.id == doctorId);
+            if (!doctor) { return; }
+
+            document.getElementById('breadcrumb-doc-name').textContent = doctor.name;
+            document.getElementById('doc-image').src = doctor.image;
+            document.getElementById('doc-image').alt = `Photo of ${doctor.name}`;
+            document.getElementById('doc-name').textContent = doctor.name;
+            document.getElementById('doc-qualification').textContent = doctor.qualification || '';
+            document.getElementById('doc-bio').textContent = doctor.bio || 'No biography available.';
+
+            const eduContainer = document.getElementById('doc-education');
+            if (doctor.education) {
+                doctor.education.split('\n').forEach(item => {
+                    if(item) eduContainer.innerHTML += `<li>${item}</li>`;
+                });
+            }
+
+            const contactContainer = document.getElementById('contact-info-container');
+            contactContainer.innerHTML = '';
+            if (doctor.phone) contactContainer.innerHTML += `<div class="info-item"><i class="fas fa-phone-alt"></i><span>${doctor.phone}</span></div>`;
+            if (doctor.email) contactContainer.innerHTML += `<div class="info-item"><i class="fas fa-envelope"></i><span>${doctor.email}</span></div>`;
+            if (doctor.location) contactContainer.innerHTML += `<div class="info-item"><i class="fas fa-map-marker-alt"></i><span>${doctor.location}</span></div>`;
+
+            const socialContainer = document.getElementById('social-links-container');
+            socialContainer.innerHTML = '';
+            if (doctor.linkedin) socialContainer.innerHTML += `<a href="${doctor.linkedin}" target="_blank" class="text-gray-400 hover:text-blue-600"><i class="fab fa-linkedin-in fa-lg"></i></a>`;
+
+            const hoursContainer = document.getElementById('working-hours-container');
+            hoursContainer.innerHTML = '';
+            if (doctor.hours && doctor.hours.mf) hoursContainer.innerHTML += `<div class="working-hours-item"><span>Monday - Friday</span><span>${doctor.hours.mf}</span></div>`;
+            if (doctor.hours && doctor.hours.sat) hoursContainer.innerHTML += `<div class="working-hours-item"><span>Saturday</span><span>${doctor.hours.sat}</span></div>`;
+            if (doctor.hours && doctor.hours.sun) hoursContainer.innerHTML += `<div class="working-hours-item"><span>Sunday</span><span>${doctor.hours.sun}</span></div>`;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+.hero {
+  background: url('https://img.freepik.com/free-photo/close-up-doctor-with-stethoscope_23-2149152317.jpg') no-repeat center center/cover;
+  height: 250px;
+  position: relative;
+  color: #fff;
+}
+
+.hero .overlay {
+  background-color: rgba(0, 51, 102, 0.6);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+  .overlay a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.overlay a:hover {
+  text-decoration: underline;
+}
+
+
+.hero h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.hero p {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.appointment-section {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+.form-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 10px;
+}
+
+.form-container p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.input-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+textarea {
+  height: 100px;
+  margin-bottom: 20px;
+  resize: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.working-hours {
+  background-color: #007bff;
+  color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.working-hours h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.working-hours table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.working-hours th,
+.working-hours td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: left;
+  font-size: 14px;
+}
+
+.working-hours thead {
+  background-color: rgba(255, 255, 255, 0.15);
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hospital Appointment</title>
+  <link rel="stylesheet" href="css/appoinment.css" />
+</head>
+<body>
+    <!-- Preloader -->
+<div id="preloader">
+  <div class="loader"></div>
+</div>
+
+  <section class="hero">
+    <div class="overlay">
+      <h1>Get Your Appointment</h1>
+      <p>
+        <a href="index.html">Home</a> &nbsp; > &nbsp; Appointment
+      </p>
+    </div>
+  </section>
+
+  <section class="appointment-section">
+    <div class="form-container">
+      <h2>Book your appointment</h2>
+      <p>We will confirm your appointment within 2 hours</p>
+      <form id="appointmentForm">
+        <div class="input-row">
+          <input type="text" placeholder="Name" required />
+          <input type="email" placeholder="Email" required />
+        </div>
+        <div class="input-row">
+          <input type="text" placeholder="Phone" required />
+          <select>
+            <option value="">Department</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="neurology">Neurology</option>
+            <option value="orthopedics">Orthopedics</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <select>
+            <option value="">Doctor</option>
+            <option value="dr1">Dr. Smith</option>
+            <option value="dr2">Dr. John</option>
+          </select>
+          <input type="date" required />
+        </div>
+        <textarea placeholder="Write Your Message Here..."></textarea>
+        <button type="submit">Book An Appointment</button>
+      </form>
+    </div>
+
+    <div class="working-hours">
+      <h3>Appointment Schedule</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Timing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Monday</td><td>8:00 – 10:00</td></tr>
+          <tr><td>Tuesday</td><td>9:00 – 11:00</td></tr>
+          <tr><td>Wednesday</td><td>11:00 – 1:00</td></tr>
+          <tr><td>Thursday</td><td>3:00 – 4:00</td></tr>
+          <tr><td>Friday</td><td>5:00 – 6:00</td></tr>
+          <tr><td>Saturday</td><td>8:00 – 11:00</td></tr>
+          <tr><td>Sunday</td><td>Closed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ✅ Link to your JS file here -->
+  <script src="js/appointment.js"></script>
+  <script src="js/script.js"></script>
+
+</body>
+</html>
