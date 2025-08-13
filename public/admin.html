@@ -14,42 +14,14 @@
         .modal-content { transition: transform 0.3s ease; }
         .form-section-title { font-weight: 600; color: #1A76D1; margin-top: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; }
         #blog-editor { height: 300px; }
-        .sidebar {
-            background-color: #ffffff;
-            border-right: 1px solid #e5e7eb;
-        }
-        .sidebar .nav-link {
-            color: #4b5563;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #eff6ff;
-            color: #2563eb;
-        }
-        .sidebar .nav-link.active-link {
-            background-color: #2563eb;
-            color: #ffffff;
-        }
-        /* Custom file input styling */
-        .custom-file-input::-webkit-file-upload-button { visibility: hidden; }
-        .custom-file-input::before {
-            content: 'Select Image';
-            display: inline-block;
-            background: #eff6ff;
-            color: #2563eb;
-            border: 1px solid #dbeafe;
-            border-radius: 0.25rem;
-            padding: 0.5rem 1rem;
-            outline: none;
-            white-space: nowrap;
-            -webkit-user-select: none;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
-        .custom-file-input:hover::before { background-color: #dbeafe; }
+        .sidebar { background-color: #ffffff; border-right: 1px solid #e5e7eb; }
+        .sidebar .nav-link { color: #4b5563; }
+        .sidebar .nav-link:hover { background-color: #eff6ff; color: #2563eb; }
+        .sidebar .nav-link.active-link { background-color: #2563eb; color: #ffffff; }
     </style>
 </head>
-<body class="bg-gray-100">
+<!-- BUG FIX: Hide body by default to prevent content flash before auth check -->
+<body class="bg-gray-100" style="display: none;">
 
     <!-- Sidebar -->
     <aside class="sidebar w-64 min-h-screen p-4 fixed z-20">
@@ -86,16 +58,18 @@
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- BUG FIX: Robust AUTH CHECK ---
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+            // Use replace() so the user can't use the back button to return to a logged-out page.
+            window.location.replace('/admin-login.html'); 
+            return; // Stop any further script execution if not logged in.
+        }
+        // If the token exists, we can safely show the page content.
+        document.body.style.display = 'block';
+
         // --- CONFIGURATION ---
         const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
-        const token = localStorage.getItem('adminToken');
-        
-        // --- AUTH CHECK ---
-        if (!token) {
-            window.location.href = window.location.origin + '/admin-login.html';
-            return;
-        }
-        
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -114,20 +88,30 @@
             });
         });
         
-        // --- LOGOUT ---
+        // --- BUG FIX: LOGOUT ---
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('adminToken');
-            window.location.href = window.location.origin + '/admin-login.html';
+            // Use replace() to prevent back button issues.
+            window.location.replace('/admin-login.html');
         });
 
-        // --- API HELPERS ---
+        // --- BUG FIX: API HELPERS with Token Check ---
         const api = {
-            get: async (endpoint) => (await fetch(`${API_URL}/api/${endpoint}`, { headers: { 'Authorization': headers.Authorization } })).json(),
+            get: async (endpoint) => {
+                const response = await fetch(`${API_URL}/api/${endpoint}`, { headers: { 'Authorization': headers.Authorization } });
+                // If token is expired or invalid, server will send 401 or 403.
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('adminToken');
+                    window.location.replace('/admin-login.html');
+                    throw new Error('Invalid token. Redirecting to login.');
+                }
+                return response.json();
+            },
             post: async (endpoint, data) => (await fetch(`${API_URL}/api/${endpoint}`, { method: 'POST', headers, body: JSON.stringify(data) })).json(),
             put: async (endpoint, id, data) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'PUT', headers, body: JSON.stringify(data) })).json(),
             delete: async (endpoint, id) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'DELETE', headers })).json()
         };
-
+        
         // --- HELPER to convert file to Base64 ---
         const fileToBase64 = (file) => new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -136,7 +120,7 @@
             reader.onerror = error => reject(error);
         });
         
-        // --- DASHBOARD ---
+          // --- DASHBOARD ---
         const loadDashboardStats = async () => {
             try {
                 const stats = await api.get('stats');
@@ -146,6 +130,7 @@
                 document.getElementById('total-appointments').textContent = stats.appointments;
             } catch (error) { console.error('Error loading stats:', error); }
         };
+        
         
         // --- DOCTORS ---
         let doctorsData = [];
@@ -423,7 +408,6 @@
                 if (confirm('Are you sure?')) { await api.delete('appointments', deleteBtn.dataset.id); initialize(); }
             }
         });
-
         // --- INITIAL LOAD ---
         const initialize = async () => {
             try {
@@ -438,12 +422,7 @@
                 renderAppointments(appointments);
             } catch (error) {
                 console.error("Initialization failed:", error);
-                if (error.message.includes('Token')) {
-                    localStorage.removeItem('adminToken');
-                    window.location.href = './admin-login.html';
-                } else {
-                    alert("Could not load data. Please check API_URL and server logs.");
-                }
+                // The robust api.get helper will handle redirection for token errors.
             }
         };
 
