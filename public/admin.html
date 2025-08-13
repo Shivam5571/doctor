@@ -24,7 +24,7 @@
     <!-- FIX: Using sessionStorage for temporary login -->
     <script>
         if (!sessionStorage.getItem('adminToken')) {
-            window.location.replace(window.location.origin + '/admin-login.html');
+            window.location.replace(window.location.origin + '/admin-login.html/');
         }
     </script>
 </head>
@@ -90,7 +90,7 @@
         document.getElementById('logoutButton').addEventListener('click', () => {
             // FIX: Use sessionStorage to remove the token
             sessionStorage.removeItem('adminToken');
-            window.location.replace(window.location.origin + '/admin-login.html');
+            window.location.replace(window.location.origin + '/admin-login.html/');
         });
 
         const api = {
@@ -99,7 +99,7 @@
                 if (response.status === 401 || response.status === 403) {
                     // FIX: Use sessionStorage to remove the token
                     sessionStorage.removeItem('adminToken');
-                    window.location.replace(window.location.origin + '/admin-login.html');
+                    window.location.replace(window.location.origin + '/admin-login.html/');
                     throw new Error('Invalid token. Redirecting to login.');
                 }
                 return response.json();

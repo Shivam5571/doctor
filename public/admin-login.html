@@ -38,7 +38,7 @@
             // FIX: Check sessionStorage instead of localStorage
             const token = sessionStorage.getItem('adminToken');
             if (token) {
-                window.location.replace(window.location.origin + '/admin.html');
+                window.location.replace(window.location.origin + '/admin.html/');
             }
         });
 
@@ -61,7 +61,7 @@
                 if (response.ok) {
                     // FIX: Use sessionStorage to store the token
                     sessionStorage.setItem('adminToken', data.token);
-                    window.location.replace(window.location.origin + '/admin.html');
+                    window.location.replace(window.location.origin + '/admin.html/');
                 } else {
                     throw new Error(data.message || 'Login failed!');
                 }
