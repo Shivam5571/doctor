@@ -39,102 +39,118 @@
     <!-- Doctors Grid -->
     <section class="doctors-section">
       <div class="doctor-grid" id="doctors-list-public">
+        <!-- Doctors ki list yahan server se aayegi -->
         <p style="text-align: center; grid-column: 1 / -1;">Loading doctors...</p>
       </div>
     </section>
 
     <!-- Footer Section -->
     <footer class="footer-section">
-  <div class="footer-container">
-
-    <!-- About Us -->
-    <div class="footer-column">
-      <h3>About Us</h3>
-      <div class="footer-line"></div>
-      <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
-      <div class="footer-social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-google-plus-g"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-vimeo-v"></i></a>
-        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+      <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+          <h3>About Us</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="footer-line"></div>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="Contact.html">About Us</a></li>
+            <li><a href="Service.html">Services</a></li>
+            <li><a href="#">Our Cases</a></li>
+            <li><a href="#">Other Links</a></li>
+            <li><a href="Appoinment.html">Appoinment</a></li>
+            <li><a href="#">Finance</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Open Hours -->
+        <div class="footer-column">
+          <h3>Open Hours</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
+          <ul class="open-hours">
+            <li><span>Monday - Friday:</span> 8.00–20.00</li>
+            <li><span>Saturday:</span> 9.00–18.30</li>
+            <li><span>Monday - Thursday:</span> 9.00–15.00</li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+        <div class="footer-column">
+          <h3>Newsletter</h3>
+          <div class="footer-line"></div>
+          <p>Subscribe to our newsletter to get all our news in your inbox.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Email Address" required>
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
       </div>
-    </div>
-
-    <!-- Quick Links -->
-    <div class="footer-column">
-      <h3>Quick Links</h3>
-      <div class="footer-line"></div>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="Contact.html">About Us</a></li>
-        <li><a href="Service.html">Services</a></li>
-        <li><a href="#">Our Cases</a></li>
-        <li><a href="#">Other Links</a></li>
-        <li><a href="Appoinment.html">Appoinment</a></li>
-        <li><a href="#">Finance</a></li>
-        <li><a href="#">Testimonials</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="Contact.html">Contact Us</a></li>
-      </ul>
-    </div>
-
-    <!-- Open Hours -->
-    <div class="footer-column">
-      <h3>Open Hours</h3>
-      <div class="footer-line"></div>
-      <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
-      <ul class="open-hours">
-        <li><span>Monday - Friday:</span> 8.00–20.00</li>
-        <li><span>Saturday:</span> 9.00–18.30</li>
-        <li><span>Monday - Thursday:</span> 9.00–15.00</li>
-      </ul>
-    </div>
-
-    <!-- Newsletter -->
-    <div class="footer-column">
-      <h3>Newsletter</h3>
-      <div class="footer-line"></div>
-      <p>Subscribe to our newsletter to get all our news in your inbox.</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Email Address" required>
-        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-      </form>
-    </div>
-
-  </div>
-</footer>
+    </footer>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const doctorsListContainer = document.getElementById('doctors-list-public');
-        const doctors = JSON.parse(localStorage.getItem('doctors')) || [];
-        doctorsListContainer.innerHTML = '';
+        // Apne Render backend ka URL yahan daalein
+        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com'; // Example URL - Isko apne real URL se badlein
 
-        if (doctors.length === 0) {
-          doctorsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No doctors have been added yet.</p>';
-        } else {
-          doctors.forEach(doctor => {
-            const doctorCardHTML = `
-              <div class="doctor-card">
-                <div class="image-wrapper">
-                  <img src="${doctor.image}" alt="Photo of ${doctor.name}">
-                  <div class="image-overlay"></div>
-                  <a href="Appoinment.html" class="appointment-hover-btn">Get Appointment</a>
-                </div>
-                <div class="doctor-info">
-                  <p class="speciality">${doctor.speciality}</p>
-                  
-                  <!-- LINK FIX: Yeh link ab sahi 'doctor-detail.html' page par jaayega -->
-                  <h3><a href="doctor-detail.html?id=${doctor.id}">${doctor.name}</a></h3>
+        window.addEventListener('load', () => {
+            fetchDoctors();
+        });
 
-                </div>
-              </div>
-            `;
-            doctorsListContainer.innerHTML += doctorCardHTML;
-          });
+        async function fetchDoctors() {
+            const doctorListDiv = document.getElementById('doctors-list-public');
+            doctorListDiv.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Loading doctors...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/api/doctors`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const doctors = await response.json();
+
+                doctorListDiv.innerHTML = ''; // Loading message hatayein
+
+                if (doctors.length === 0) {
+                    doctorListDiv.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No doctors have been added yet.</p>';
+                    return;
+                }
+
+                doctors.forEach(doctor => {
+                    // Aapke original HTML structure ke hisaab se doctor card banaya gaya hai
+                    const doctorCardHTML = `
+                      <div class="doctor-card">
+                        <div class="image-wrapper">
+                          <img src="${doctor.imageUrl}" alt="Photo of ${doctor.name}">
+                          <div class="image-overlay"></div>
+                          <a href="Appoinment.html" class="appointment-hover-btn">Get Appointment</a>
+                        </div>
+                        <div class="doctor-info">
+                          <p class="speciality">${doctor.specialty}</p>
+                          <h3><a href="doctor-detail.html?id=${doctor._id}">${doctor.name}</a></h3>
+                        </div>
+                      </div>
+                    `;
+                    doctorListDiv.innerHTML += doctorCardHTML;
+                });
+
+            } catch (error) {
+                console.error('Failed to fetch doctors:', error);
+                doctorListDiv.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Could not load doctors. Please try again later.</p>';
+            }
         }
-      });
     </script>
+    
 </body>
 </html>
