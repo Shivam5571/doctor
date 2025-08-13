@@ -99,7 +99,8 @@ app.post('/admin/login', async (req, res) => {
         const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: '8h' });
         res.json({ token });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error("Login Error:", error);
+        res.status(500).json({ message: 'Server error during login' });
     }
 });
 
