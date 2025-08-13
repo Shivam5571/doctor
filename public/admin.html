@@ -29,6 +29,24 @@
             background-color: #2563eb;
             color: #ffffff;
         }
+        /* Custom file input styling */
+        .custom-file-input::-webkit-file-upload-button { visibility: hidden; }
+        .custom-file-input::before {
+            content: 'Select Image';
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe;
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        .custom-file-input:hover::before { background-color: #dbeafe; }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -69,12 +87,12 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // --- CONFIGURATION ---
-        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com'; // IMPORTANT: Isko apne real Render backend URL se badlein
+        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
         const token = localStorage.getItem('adminToken');
         
         // --- AUTH CHECK ---
         if (!token) {
-            window.location.href = window.location.origin + '/admin-login.html'; // FIX: Redirects correctly
+            window.location.href = window.location.origin + '/admin-login.html';
             return;
         }
         
@@ -99,7 +117,7 @@
         // --- LOGOUT ---
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('adminToken');
-            window.location.href = window.location.origin + '/admin-login.html'; // FIX: Redirects correctly
+            window.location.href = window.location.origin + '/admin-login.html';
         });
 
         // --- API HELPERS ---
@@ -109,6 +127,14 @@
             put: async (endpoint, id, data) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'PUT', headers, body: JSON.stringify(data) })).json(),
             delete: async (endpoint, id) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'DELETE', headers })).json()
         };
+
+        // --- HELPER to convert file to Base64 ---
+        const fileToBase64 = (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
         
         // --- DASHBOARD ---
         const loadDashboardStats = async () => {
@@ -129,24 +155,54 @@
         const addDoctorBtn = document.getElementById('add-doctor-btn');
         const closeDoctorModalBtn = document.getElementById('close-doctor-modal-btn');
         const doctorModalTitle = document.getElementById('doctor-modal-title');
-        doctorFormEl.innerHTML = `<input type="hidden" id="doctorId"><h3 class="form-section-title">Basic Information</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-name" class="block text-sm font-medium text-gray-700">Doctor Name</label><input type="text" id="doctor-name" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-imageUrl" class="block text-sm font-medium text-gray-700">Doctor Image URL</label><input type="url" id="doctor-imageUrl" placeholder="https://example.com/image.png" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-specialty" class="block text-sm font-medium text-gray-700">Speciality</label><select id="doctor-specialty" required class="mt-1 block w-full px-3 py-2 border bg-white rounded-md"><option value="">Select Speciality</option><option value="Psychiatrist">Psychiatrist</option><option value="Clinical Psychologist">Clinical Psychologist</option></select></div><div><label for="doctor-qualification" class="block text-sm font-medium text-gray-700">Qualifications</label><input type="text" id="doctor-qualification" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div><label for="doctor-bio" class="block text-sm font-medium text-gray-700">Biography</label><textarea id="doctor-bio" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Education</h3><div><label for="doctor-education" class="block text-sm font-medium text-gray-700">Degrees (Har degree ek nayi line mein)</label><textarea id="doctor-education" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Contact & Social Media</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-phone" class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="doctor-phone" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-email" class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="doctor-email" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-location" class="block text-sm font-medium text-gray-700">Location / Chamber</label><input type="text" id="doctor-location" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label><input type="url" id="doctor-linkedin" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><h3 class="form-section-title">Working Hours</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="doctor-hours-mf" class="block text-sm font-medium text-gray-700">Monday - Friday</label><input type="text" id="doctor-hours-mf" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sat" class="block text-sm font-medium text-gray-700">Saturday</label><input type="text" id="doctor-hours-sat" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sun" class="block text-sm font-medium text-gray-700">Sunday</label><input type="text" id="doctor-hours-sun" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Doctor</button></div>`;
+        // UPDATE: Doctor form now includes a file input and image preview
+        doctorFormEl.innerHTML = `<input type="hidden" id="doctorId"><input type="hidden" id="doctor-imageUrl-hidden"><h3 class="form-section-title">Basic Information</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-name" class="block text-sm font-medium text-gray-700">Doctor Name</label><input type="text" id="doctor-name" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-imageFile" class="block text-sm font-medium text-gray-700">Doctor Image</label><input type="file" id="doctor-imageFile" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"><img id="doctor-image-preview" class="mt-2 w-32 h-32 object-cover rounded-md hidden"></div><div><label for="doctor-specialty" class="block text-sm font-medium text-gray-700">Speciality</label><select id="doctor-specialty" required class="mt-1 block w-full px-3 py-2 border bg-white rounded-md"><option value="">Select Speciality</option><option value="Psychiatrist">Psychiatrist</option><option value="Clinical Psychologist">Clinical Psychologist</option></select></div><div><label for="doctor-qualification" class="block text-sm font-medium text-gray-700">Qualifications</label><input type="text" id="doctor-qualification" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div><label for="doctor-bio" class="block text-sm font-medium text-gray-700">Biography</label><textarea id="doctor-bio" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Education</h3><div><label for="doctor-education" class="block text-sm font-medium text-gray-700">Degrees (Har degree ek nayi line mein)</label><textarea id="doctor-education" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Contact & Social Media</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-phone" class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="doctor-phone" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-email" class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="doctor-email" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-location" class="block text-sm font-medium text-gray-700">Location / Chamber</label><input type="text" id="doctor-location" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label><input type="url" id="doctor-linkedin" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><h3 class="form-section-title">Working Hours</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="doctor-hours-mf" class="block text-sm font-medium text-gray-700">Monday - Friday</label><input type="text" id="doctor-hours-mf" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sat" class="block text-sm font-medium text-gray-700">Saturday</label><input type="text" id="doctor-hours-sat" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sun" class="block text-sm font-medium text-gray-700">Sunday</label><input type="text" id="doctor-hours-sun" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Doctor</button></div>`;
         
         const openDoctorModal = () => doctorModal.classList.remove('hidden');
-        const closeDoctorModal = () => { doctorModal.classList.add('hidden'); doctorFormEl.reset(); document.getElementById('doctorId').value = ''; };
+        const closeDoctorModal = () => { 
+            doctorModal.classList.add('hidden'); 
+            doctorFormEl.reset(); 
+            document.getElementById('doctorId').value = ''; 
+            document.getElementById('doctor-imageUrl-hidden').value = '';
+            const preview = document.getElementById('doctor-image-preview');
+            preview.classList.add('hidden');
+            preview.src = '';
+        };
         addDoctorBtn.addEventListener('click', () => { doctorModalTitle.textContent = 'Add New Doctor'; closeDoctorModal(); openDoctorModal(); });
         closeDoctorModalBtn.addEventListener('click', closeDoctorModal);
+
+        // Event listener for doctor image preview
+        doctorFormEl.addEventListener('change', (e) => {
+            if (e.target.id === 'doctor-imageFile') {
+                const file = e.target.files[0];
+                if (file) {
+                    const preview = document.getElementById('doctor-image-preview');
+                    preview.src = URL.createObjectURL(file);
+                    preview.classList.remove('hidden');
+                }
+            }
+        });
 
         const renderDoctors = (doctors) => {
             doctorsData = doctors;
             doctorsList.innerHTML = doctors.map(doc => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${doc.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${doc.name}" class="w-full h-48 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold">${doc.name}</h3><p class="text-blue-600 font-semibold">${doc.specialty}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-doctor-btn" data-id="${doc._id}"><i class="fas fa-edit"></i> Edit</button><button class="text-red-500 hover:text-red-700 delete-doctor-btn" data-id="${doc._id}"><i class="fas fa-trash-alt"></i> Delete</button></div></div>`).join('');
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${doc.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=No+Image'}" alt="${doc.name}" class="w-full h-48 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold">${doc.name}</h3><p class="text-blue-600 font-semibold">${doc.specialty}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-doctor-btn" data-id="${doc._id}"><i class="fas fa-edit"></i> Edit</button><button class="text-red-500 hover:text-red-700 delete-doctor-btn" data-id="${doc._id}"><i class="fas fa-trash-alt"></i> Delete</button></div></div>`).join('');
         };
 
         doctorFormEl.addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('doctorId').value;
+            let imageUrl = document.getElementById('doctor-imageUrl-hidden').value;
+            const fileInput = document.getElementById('doctor-imageFile');
+
+            if (fileInput.files[0]) {
+                imageUrl = await fileToBase64(fileInput.files[0]);
+            }
+
             const doctorData = {
-                name: document.getElementById('doctor-name').value, imageUrl: document.getElementById('doctor-imageUrl').value, specialty: document.getElementById('doctor-specialty').value, qualification: document.getElementById('doctor-qualification').value, bio: document.getElementById('doctor-bio').value, education: document.getElementById('doctor-education').value, phone: document.getElementById('doctor-phone').value, email: document.getElementById('doctor-email').value, location: document.getElementById('doctor-location').value, linkedin: document.getElementById('doctor-linkedin').value,
+                name: document.getElementById('doctor-name').value, 
+                imageUrl: imageUrl, 
+                specialty: document.getElementById('doctor-specialty').value, qualification: document.getElementById('doctor-qualification').value, bio: document.getElementById('doctor-bio').value, education: document.getElementById('doctor-education').value, phone: document.getElementById('doctor-phone').value, email: document.getElementById('doctor-email').value, location: document.getElementById('doctor-location').value, linkedin: document.getElementById('doctor-linkedin').value,
                 hours: { mf: document.getElementById('doctor-hours-mf').value, sat: document.getElementById('doctor-hours-sat').value, sun: document.getElementById('doctor-hours-sun').value }
             };
             try {
@@ -164,7 +220,20 @@
                 doctorModalTitle.textContent = 'Edit Doctor';
                 document.getElementById('doctorId').value = doc._id;
                 document.getElementById('doctor-name').value = doc.name;
-                document.getElementById('doctor-imageUrl').value = doc.imageUrl;
+                
+                // Handle image preview for existing image
+                const preview = document.getElementById('doctor-image-preview');
+                const hiddenImageUrl = document.getElementById('doctor-imageUrl-hidden');
+                if (doc.imageUrl) {
+                    preview.src = doc.imageUrl;
+                    preview.classList.remove('hidden');
+                    hiddenImageUrl.value = doc.imageUrl;
+                } else {
+                    preview.classList.add('hidden');
+                    preview.src = '';
+                    hiddenImageUrl.value = '';
+                }
+
                 document.getElementById('doctor-specialty').value = doc.specialty;
                 document.getElementById('doctor-qualification').value = doc.qualification;
                 document.getElementById('doctor-bio').value = doc.bio;
@@ -238,25 +307,55 @@
         const closeBlogModalBtn = document.getElementById('close-blog-modal-btn');
         const blogModalTitle = document.getElementById('blog-modal-title');
         const blogFormEl = document.getElementById('blog-form');
-        blogFormEl.innerHTML = `<input type="hidden" id="blogId"><h3 class="form-section-title">Blog Details</h3><div><label for="blog-title" class="block text-sm font-medium">Blog Title</label><input type="text" id="blog-title" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-author" class="block text-sm font-medium">Author Name</label><input type="text" id="blog-author" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-imageUrl" class="block text-sm font-medium">Main Blog Image URL</label><input type="url" id="blog-imageUrl" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-tags" class="block text-sm font-medium">Tags (comma separated)</label><input type="text" id="blog-tags" class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-excerpt" class="block text-sm font-medium">Excerpt (Short Summary)</label><textarea id="blog-excerpt" rows="3" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div><label class="block text-sm font-medium">Full Content</label><div id="blog-editor" class="mt-1 bg-white"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-green-600 hover:bg-green-700">Save Blog</button></div>`;
+        // UPDATE: Blog form now includes a file input and image preview
+        blogFormEl.innerHTML = `<input type="hidden" id="blogId"><input type="hidden" id="blog-imageUrl-hidden"><h3 class="form-section-title">Blog Details</h3><div><label for="blog-title" class="block text-sm font-medium">Blog Title</label><input type="text" id="blog-title" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-author" class="block text-sm font-medium">Author Name</label><input type="text" id="blog-author" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-imageFile" class="block text-sm font-medium">Main Blog Image</label><input type="file" id="blog-imageFile" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"><img id="blog-image-preview" class="mt-2 w-48 h-32 object-cover rounded-md hidden"></div><div><label for="blog-tags" class="block text-sm font-medium">Tags (comma separated)</label><input type="text" id="blog-tags" class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-excerpt" class="block text-sm font-medium">Excerpt (Short Summary)</label><textarea id="blog-excerpt" rows="3" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div><label class="block text-sm font-medium">Full Content</label><div id="blog-editor" class="mt-1 bg-white"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-green-600 hover:bg-green-700">Save Blog</button></div>`;
         const quill = new Quill('#blog-editor', { theme: 'snow', modules: { toolbar: true } });
         
         const openBlogModal = () => blogModal.classList.remove('hidden');
-        const closeBlogModal = () => { blogModal.classList.add('hidden'); blogFormEl.reset(); quill.root.innerHTML = ''; document.getElementById('blogId').value = ''; };
+        const closeBlogModal = () => { 
+            blogModal.classList.add('hidden'); 
+            blogFormEl.reset(); 
+            quill.root.innerHTML = ''; 
+            document.getElementById('blogId').value = '';
+            document.getElementById('blog-imageUrl-hidden').value = '';
+            const preview = document.getElementById('blog-image-preview');
+            preview.classList.add('hidden');
+            preview.src = '';
+        };
         addBlogBtn.addEventListener('click', () => { blogModalTitle.textContent = 'Add New Blog'; closeBlogModal(); openBlogModal(); });
         closeBlogModalBtn.addEventListener('click', closeBlogModal);
+
+        // Event listener for blog image preview
+        blogFormEl.addEventListener('change', (e) => {
+            if (e.target.id === 'blog-imageFile') {
+                const file = e.target.files[0];
+                if (file) {
+                    const preview = document.getElementById('blog-image-preview');
+                    preview.src = URL.createObjectURL(file);
+                    preview.classList.remove('hidden');
+                }
+            }
+        });
 
         const renderBlogs = (blogs) => {
             blogsData = blogs;
             blogListEl.innerHTML = blogs.map(blog => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${blog.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${blog.title}" class="w-full h-40 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold truncate">${blog.title}</h3><p class="text-gray-500 text-sm mb-2">by ${blog.author}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-blog-btn" data-id="${blog._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-blog-btn" data-id="${blog._id}"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${blog.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=No+Image'}" alt="${blog.title}" class="w-full h-40 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold truncate">${blog.title}</h3><p class="text-gray-500 text-sm mb-2">by ${blog.author}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-blog-btn" data-id="${blog._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-blog-btn" data-id="${blog._id}"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
         };
 
         blogFormEl.addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('blogId').value;
+            let imageUrl = document.getElementById('blog-imageUrl-hidden').value;
+            const fileInput = document.getElementById('blog-imageFile');
+
+            if (fileInput.files[0]) {
+                imageUrl = await fileToBase64(fileInput.files[0]);
+            }
+
             const blogData = {
-                title: document.getElementById('blog-title').value, author: document.getElementById('blog-author').value, imageUrl: document.getElementById('blog-imageUrl').value,
+                title: document.getElementById('blog-title').value, author: document.getElementById('blog-author').value, 
+                imageUrl: imageUrl,
                 tags: document.getElementById('blog-tags').value.split(',').map(tag => tag.trim()).filter(Boolean),
                 excerpt: document.getElementById('blog-excerpt').value, content: quill.root.innerHTML
             };
@@ -278,7 +377,19 @@
                 document.getElementById('blogId').value = blog._id;
                 document.getElementById('blog-title').value = blog.title;
                 document.getElementById('blog-author').value = blog.author;
-                document.getElementById('blog-imageUrl').value = blog.imageUrl;
+                
+                const preview = document.getElementById('blog-image-preview');
+                const hiddenImageUrl = document.getElementById('blog-imageUrl-hidden');
+                if (blog.imageUrl) {
+                    preview.src = blog.imageUrl;
+                    preview.classList.remove('hidden');
+                    hiddenImageUrl.value = blog.imageUrl;
+                } else {
+                    preview.classList.add('hidden');
+                    preview.src = '';
+                    hiddenImageUrl.value = '';
+                }
+
                 document.getElementById('blog-tags').value = blog.tags.join(', ');
                 document.getElementById('blog-excerpt').value = blog.excerpt;
                 quill.root.innerHTML = blog.content;
