@@ -14,19 +14,11 @@
         .blog-meta span { display: flex; align-items: center; gap: 0.5rem; }
         .blog-content p { line-height: 1.8; margin-bottom: 1.5rem; color: #4b5563; }
         .blog-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
-        .blog-content h1, .blog-content h2, .blog-content h3 { font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem; color: #333; }
-        .blog-content ul { list-style-type: disc; padding-left: 2rem; }
-        .blog-content ol { list-style-type: decimal; padding-left: 2rem; }
-        .blog-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #6b7280; }
-        
         .comment-card { display: flex; gap: 1rem; }
-        .comment-card img { width: 50px; height: 50px; border-radius: 50%; }
-        .rating .fa-star { color: #d1d5db; }
-        .rating .fa-star.selected { color: #f59e0b; }
-        .rating-input .fa-star { cursor: pointer; transition: color 0.2s; }
+        .comment-card img { width: 40px; height: 40px; border-radius: 50%; }
         .comment-form-section h2, .comments-section h2 { padding-bottom: 0.75rem; border-bottom: 2px solid #f3f4f6; }
         .reply-btn { background: none; border: none; color: #1A76D1; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-        .replies-container { margin-left: 3.5rem; border-left: 2px solid #e5e7eb; padding-left: 1rem; }
+        .replies-container { margin-left: 3rem; border-left: 2px solid #e5e7eb; padding-left: 1rem; }
     </style>
 </head>
 <body>
@@ -51,13 +43,10 @@
     </section>
 
     <main id="main-content" class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <!-- Blog content will be loaded here -->
         <p id="loading-message" class="text-center text-xl">Loading blog post...</p>
     </main>
     
-    <footer class="footer-section">
-        <!-- Your footer content here -->
-    </footer>
+    <footer class="footer-section"></footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
@@ -74,18 +63,18 @@
             }
 
             try {
+                // Fetch the single blog post
                 const response = await fetch(`${API_URL}/api/blogs`);
-                if (!response.ok) throw new Error('Network response was not ok.');
-                
+                if (!response.ok) throw new Error('Could not fetch blogs.');
                 const allBlogs = await response.json();
                 const blog = allBlogs.find(b => b._id === blogId);
 
-                if (!blog) {
-                    throw new Error('Blog post not found.');
-                }
+                if (!blog) throw new Error('Blog post not found.');
 
                 loadingMessage.style.display = 'none';
                 renderBlogDetails(blog);
+                
+                // Now initialize the comment section
                 initializeCommentSection(blogId);
 
             } catch (error) {
@@ -99,15 +88,8 @@
             document.title = blog.title;
             document.getElementById('breadcrumb-blog-title').textContent = blog.title;
 
-            const postDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-
-            const tagsHtml = blog.tags && blog.tags.length > 0 
-                ? blog.tags.map(tag => `<span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">${tag}</span>`).join(' ')
-                : 'General';
+            const postDate = new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const tagsHtml = blog.tags && blog.tags.length > 0 ? blog.tags.map(tag => `<span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">${tag}</span>`).join(' ') : 'General';
 
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = `
@@ -121,7 +103,6 @@
                     </div>
                     <div id="blog-content" class="blog-content border-t pt-8 mt-4">${blog.content}</div>
                 </div>
-
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <div id="comments-section" class="mb-12">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">All Comments</h2>
@@ -132,84 +113,109 @@
                         <form id="comment-form" class="space-y-4">
                             <div><label for="comment-name" class="block text-sm font-medium text-gray-700">Your Name</label><input type="text" id="comment-name" required class="mt-1 block w-full p-3 border rounded-md"></div>
                             <div><label for="comment-text" class="block text-sm font-medium text-gray-700">Your Comment</label><textarea id="comment-text" rows="5" required class="mt-1 block w-full p-3 border rounded-md"></textarea></div>
-                            <div><label class="block text-sm font-medium text-gray-700">Your Rating</label><div class="rating-input flex items-center gap-1 text-2xl mt-1"><i class="fas fa-star" data-value="1"></i><i class="fas fa-star" data-value="2"></i><i class="fas fa-star" data-value="3"></i><i class="fas fa-star" data-value="4"></i><i class="fas fa-star" data-value="5"></i><input type="hidden" id="comment-rating" value="0" required></div></div>
                             <div class="text-right"><button type="submit" class="inline-flex justify-center py-2 px-6 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Submit</button></div>
                         </form>
                     </div>
                 </div>
             `;
         }
+        
+        async function initializeCommentSection(blogId) {
+            const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
+            const commentsListEl = document.getElementById('comments-list');
+            const mainCommentForm = document.getElementById('comment-form');
 
-        // NOTE: The comment system below still uses localStorage.
-        // A full implementation would require backend API endpoints for comments.
-        function initializeCommentSection(blogId) {
-            const commentsList = document.getElementById('comments-list');
-            const commentForm = document.getElementById('comment-form');
-            const ratingStars = document.querySelectorAll('.rating-input .fa-star');
-            const ratingInput = document.getElementById('comment-rating');
-
-            let allComments = JSON.parse(localStorage.getItem('comments')) || {};
-            let blogComments = allComments[blogId] || [];
-
-            const saveComments = () => {
-                allComments[blogId] = blogComments;
-                localStorage.setItem('comments', JSON.stringify(allComments));
+            const fetchComments = async () => {
+                const response = await fetch(`${API_URL}/api/blogs/${blogId}/comments`);
+                const comments = await response.json();
+                renderComments(comments);
             };
 
-            const renderComments = () => {
-                if (!commentsList) return;
-                commentsList.innerHTML = '';
-                if (blogComments.length === 0) {
-                    commentsList.innerHTML = '<p class="text-gray-500">No comments yet. Be the first to comment!</p>';
+            const renderComments = (comments) => {
+                commentsListEl.innerHTML = '';
+                if (comments.length === 0) {
+                    commentsListEl.innerHTML = '<p class="text-gray-500">No comments yet. Be the first to comment!</p>';
                     return;
                 }
-                blogComments.forEach(comment => {
-                    let starsHTML = '';
-                    for (let i = 1; i <= 5; i++) { starsHTML += `<i class="fas fa-star ${i <= comment.rating ? 'selected' : ''}"></i>`; }
-                    
-                    const commentHTML = `
-                        <div class="comment-wrapper border-t pt-6">
+                
+                const renderCommentRecursive = (comment) => {
+                    let repliesHtml = '';
+                    if (comment.replies && comment.replies.length > 0) {
+                        repliesHtml = `<div class="replies-container mt-4 space-y-4">${comment.replies.map(renderCommentRecursive).join('')}</div>`;
+                    }
+
+                    return `
+                        <div class="comment-wrapper">
                             <div class="comment-card">
-                                <img src="https://placehold.co/100x100/EBF4FF/7F9CF5?text=${comment.name.charAt(0).toUpperCase()}" alt="">
+                                <img src="https://placehold.co/100x100/EBF4FF/7F9CF5?text=${comment.author.charAt(0).toUpperCase()}" alt="">
                                 <div class="flex-grow">
                                     <div class="flex items-center justify-between">
-                                        <h4 class="font-bold text-gray-800">${comment.name}</h4>
-                                        <span class="text-xs text-gray-500">${comment.date}</span>
+                                        <h4 class="font-bold text-gray-800">${comment.author}</h4>
+                                        <span class="text-xs text-gray-500">${new Date(comment.createdAt).toLocaleDateString()}</span>
                                     </div>
-                                    <div class="rating text-sm my-1">${starsHTML}</div>
-                                    <p class="text-gray-600 text-sm">${comment.text}</p>
+                                    <p class="text-gray-600 text-sm mt-1">${comment.content}</p>
+                                    <button class="reply-btn mt-2" data-comment-id="${comment._id}">Reply</button>
                                 </div>
                             </div>
-                        </div>`;
-                    commentsList.innerHTML += commentHTML;
-                });
+                            ${repliesHtml}
+                        </div>
+                    `;
+                };
+
+                commentsListEl.innerHTML = comments.map(renderCommentRecursive).join('');
             };
 
-            ratingStars.forEach(star => {
-                star.addEventListener('mouseover', () => { const hoverValue = star.dataset.value; ratingStars.forEach(s => s.style.color = s.dataset.value <= hoverValue ? '#f59e0b' : '#d1d5db'); });
-                star.addEventListener('mouseout', () => { const selectedValue = ratingInput.value; ratingStars.forEach(s => s.style.color = s.dataset.value <= selectedValue ? '#f59e0b' : '#d1d5db'); });
-                star.addEventListener('click', () => { ratingInput.value = star.dataset.value; });
-            });
+            const postComment = async (author, content, parentComment = null) => {
+                await fetch(`${API_URL}/api/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ blog: blogId, author, content, parentComment })
+                });
+                fetchComments(); // Refresh comments after posting
+            };
 
-            commentForm.addEventListener('submit', function(e) {
+            mainCommentForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const newComment = {
-                    id: Date.now(),
-                    name: document.getElementById('comment-name').value,
-                    text: document.getElementById('comment-text').value,
-                    rating: ratingInput.value,
-                    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-                };
-                if (newComment.rating == 0) { alert('Please provide a rating.'); return; }
-                blogComments.push(newComment);
-                saveComments();
-                renderComments();
-                commentForm.reset();
-                ratingInput.value = 0;
-                ratingStars.forEach(s => s.style.color = '#d1d5db');
+                const author = document.getElementById('comment-name').value;
+                const content = document.getElementById('comment-text').value;
+                postComment(author, content);
+                mainCommentForm.reset();
             });
 
-            renderComments();
+            commentsListEl.addEventListener('click', (e) => {
+                if (e.target.classList.contains('reply-btn')) {
+                    const parentCommentId = e.target.dataset.commentId;
+                    const parentWrapper = e.target.closest('.comment-wrapper');
+                    
+                    document.querySelector('.reply-form-container')?.remove();
+
+                    const replyFormContainer = document.createElement('div');
+                    replyFormContainer.className = 'reply-form-container mt-4 ml-12';
+                    replyFormContainer.innerHTML = `
+                        <form class="reply-form space-y-2" data-parent-id="${parentCommentId}">
+                            <input type="text" placeholder="Your Name" class="block w-full p-2 border text-sm rounded-md" required>
+                            <textarea rows="3" placeholder="Write a reply..." class="block w-full p-2 border text-sm rounded-md" required></textarea>
+                            <div class="text-right">
+                                <button type="submit" class="text-xs py-1 px-3 rounded-md text-white bg-blue-500 hover:bg-blue-600">Post Reply</button>
+                            </div>
+                        </form>
+                    `;
+                    parentWrapper.appendChild(replyFormContainer);
+                }
+            });
+
+            commentsListEl.addEventListener('submit', (e) => {
+                if (e.target.classList.contains('reply-form')) {
+                    e.preventDefault();
+                    const parentId = e.target.dataset.parentId;
+                    const author = e.target.querySelector('input[type="text"]').value;
+                    const content = e.target.querySelector('textarea').value;
+                    postComment(author, content, parentId);
+                    e.target.closest('.reply-form-container').remove();
+                }
+            });
+
+            fetchComments();
         }
     </script>
 

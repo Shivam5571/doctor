@@ -357,29 +357,47 @@
   <!-- ✅ Link to your JS file here -->
   <script src="js/script.js"></script>
   <script>
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', async function () {
         const blogsListContainer = document.getElementById('blogs-list-public');
-        const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
-        blogsListContainer.innerHTML = '';
+        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
 
-        const pinnedBlogs = blogs.filter(blog => blog.pinned);
-        
-        if (pinnedBlogs.length > 0) {
-            pinnedBlogs.forEach(blog => {
-                const blogCardHTML = `
-                  <div class="blog-card pinned">
-                    <img src="${blog.image}" alt="Blog Image for ${blog.title}">
-                    <div class="blog-content">
-                      <div class="blog-date">${blog.date}</div>
-                      <div class="blog-title"><a href="blog-detail.html?id=${blog.id}">${blog.title}</a></div>
-                      <div class="blog-desc">${blog.excerpt}</div>
-                    </div>
-                  </div>
-                `;
-                blogsListContainer.innerHTML += blogCardHTML;
-            });
-        } else {
-            blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No featured blog posts at the moment. Please check back later!</p>';
+        try {
+            // BUG FIX: Fetch all blogs first, then filter for pinned ones.
+            // This avoids the 404 error if the /api/blogs/pinned endpoint isn't on the server.
+            const response = await fetch(`${API_URL}/api/blogs`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const allBlogs = await response.json();
+            const pinnedBlogs = allBlogs.filter(blog => blog.pinned === true);
+
+            blogsListContainer.innerHTML = '';
+
+            if (pinnedBlogs.length === 0) {
+                blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No featured blog posts at the moment. Please check back later!</p>';
+            } else {
+                pinnedBlogs.forEach(blog => {
+                    const postDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    const blogCardHTML = `
+                        <div class="blog-card">
+                            <img src="${blog.imageUrl || 'https://placehold.co/600x400/f0f0f0/999?text=Blog+Image'}" alt="Blog Image for ${blog.title}">
+                            <div class="blog-content">
+                                <div class="blog-date">${postDate}</div>
+                                <div class="blog-title"><a href="blog-detail.html?id=${blog._id}">${blog.title}</a></div>
+                                <div class="blog-desc">${blog.excerpt}</div>
+                            </div>
+                        </div>
+                    `;
+                    blogsListContainer.innerHTML += blogCardHTML;
+                });
+            }
+        } catch (error) {
+            console.error("Failed to load pinned blogs:", error);
+            blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: red;">Could not load featured blogs. Please try again later.</p>';
         }
       });
     </script>
