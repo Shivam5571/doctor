@@ -1,360 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .modal { transition: opacity 0.3s ease; overflow-y: auto; }
-        .modal-content { transition: transform 0.3s ease; }
-        .form-section-title { font-weight: 600; color: #1A76D1; margin-top: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; }
-        #blog-editor { height: 300px; }
-        .sidebar {
-            background-color: #ffffff;
-            border-right: 1px solid #e5e7eb;
-        }
-        .sidebar .nav-link {
-            color: #4b5563;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #eff6ff;
-            color: #2563eb;
-        }
-        .sidebar .nav-link.active-link {
-            background-color: #2563eb;
-            color: #ffffff;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Doctors</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/doctor.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
-<body class="bg-gray-100">
+<body>
+    <!-- ====== NAVIGATION ====== -->
+    <header class="navbar">
+      <div class="logo">Your<span class="highlight">Clinic</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Doctor.html" class="active">Doctors</a></li>
+        <li><a href="Service.html">Services</a></li>
+        <li><a href="Blog.html">Blogs</a></li>
+        <li><a href="Contact.html">Contact Us</a></li>
+      </ul>
+      <a href="Appoinment.html" class="appointment-btn">Appointment</a>
+    </header>
 
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 min-h-screen p-4 fixed z-20">
-        <div class="text-2xl font-bold mb-8 text-gray-800">Admin <span class="text-blue-600">Panel</span></div>
-        <nav>
-            <ul>
-                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded" data-target="dashboard"><i class="fas fa-tachometer-alt w-6"></i><span class="ml-3">Dashboard</span></a></li>
-                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded" data-target="doctors"><i class="fas fa-user-md w-6"></i><span class="ml-3">Doctors</span></a></li>
-                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded" data-target="services"><i class="fas fa-concierge-bell w-6"></i><span class="ml-3">Services</span></a></li>
-                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded" data-target="blogs"><i class="fas fa-blog w-6"></i><span class="ml-3">Blogs</span></a></li>
-                <li class="mb-4"><a href="#" class="nav-link flex items-center p-2 rounded" data-target="appointments"><i class="fas fa-calendar-check w-6"></i><span class="ml-3">Appointments</span></a></li>
-            </ul>
-        </nav>
-        <div class="absolute bottom-4 left-4 right-4">
-             <button id="logoutButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">Logout</button>
+    <!-- Hero Section -->
+    <section class="page-hero">
+      <div class="overlay">
+        <h1>Meet Our Qualified Doctors</h1>
+        <p class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span>&gt;</span>
+          <span>Doctors</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Doctors Grid -->
+    <section class="doctors-section">
+      <div class="doctor-grid" id="doctors-list-public">
+        <!-- Doctors ki list yahan server se aayegi -->
+        <p style="text-align: center; grid-column: 1 / -1;">Loading doctors...</p>
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+      <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+          <h3>About Us</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+          </div>
         </div>
-    </aside>
+        <!-- Quick Links -->
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="footer-line"></div>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="Contact.html">About Us</a></li>
+            <li><a href="Service.html">Services</a></li>
+            <li><a href="#">Our Cases</a></li>
+            <li><a href="#">Other Links</a></li>
+            <li><a href="Appoinment.html">Appoinment</a></li>
+            <li><a href="#">Finance</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Open Hours -->
+        <div class="footer-column">
+          <h3>Open Hours</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
+          <ul class="open-hours">
+            <li><span>Monday - Friday:</span> 8.00–20.00</li>
+            <li><span>Saturday:</span> 9.00–18.30</li>
+            <li><span>Monday - Thursday:</span> 9.00–15.00</li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+        <div class="footer-column">
+          <h3>Newsletter</h3>
+          <div class="footer-line"></div>
+          <p>Subscribe to our newsletter to get all our news in your inbox.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Email Address" required>
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+    </footer>
 
-    <!-- Main Content -->
-    <main class="main-content ml-64 p-8">
-        <section id="dashboard" class="content-section"><h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Total Doctors</h2><p id="total-doctors" class="text-3xl font-bold text-blue-500 mt-2">0</p></div><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Total Services</h2><p id="total-services" class="text-3xl font-bold text-indigo-500 mt-2">0</p></div><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Total Blogs</h2><p id="total-blogs" class="text-3xl font-bold text-green-500 mt-2">0</p></div><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Appointments</h2><p id="total-appointments" class="text-3xl font-bold text-yellow-500 mt-2">0</p></div></div></section>
-        <section id="doctors" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Doctors</h1><button id="add-doctor-btn" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Add New Doctor</button></div><div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Doctors</h2><div id="doctors-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
-        <section id="services" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Services</h1><button id="add-service-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700"><i class="fas fa-plus mr-2"></i>Add New Service</button></div><div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Services</h2><div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
-        <section id="blogs" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Blogs</h1><button id="add-blog-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700"><i class="fas fa-plus mr-2"></i>Add New Blog</button></div><div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Blogs</h2><div id="blogs-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
-        <section id="appointments" class="content-section hidden"><h1 class="text-3xl font-bold text-gray-800 mb-6">Manage Appointments</h1><div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-4">Patient Name</th><th class="p-4">Doctor</th><th class="p-4">Date & Time</th><th class="p-4">Status</th><th class="p-4">Actions</th></tr></thead><tbody id="appointments-list"></tbody></table></div></section>
-    </main>
-
-    <!-- Modals -->
-    <div id="doctor-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="doctor-modal-title" class="text-2xl font-semibold"></h2><button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><form id="doctor-form" class="space-y-4"></form></div></div>
-    <div id="service-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="service-modal-title" class="text-2xl font-semibold"></h2><button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><form id="service-form" class="space-y-4"></form></div></div>
-    <div id="blog-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-4xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="blog-modal-title" class="text-2xl font-semibold"></h2><button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><form id="blog-form" class="space-y-4"></form></div></div>
-    
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- CONFIGURATION ---
-        const API_URL = 'https://your-app-name.onrender.com'; // IMPORTANT: Isko apne real Render backend URL se badlein
-        const token = localStorage.getItem('adminToken');
-        
-        // --- AUTH CHECK ---
-        if (!token) {
-            window.location.href = '/admin-login.html';
-            return;
-        }
-        
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        };
+        // Apne Render backend ka URL yahan daalein
+        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com'; // Example URL - Isko apne real URL se badlein
 
-        // --- NAVIGATION & TABS ---
-        const navLinks = document.querySelectorAll('.nav-link');
-        const contentSections = document.querySelectorAll('.content-section');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('data-target');
-                navLinks.forEach(l => l.classList.remove('active-link'));
-                link.classList.add('active-link');
-                contentSections.forEach(s => s.id === targetId ? s.classList.remove('hidden') : s.classList.add('hidden'));
-            });
-        });
-        
-        // --- LOGOUT ---
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            localStorage.removeItem('adminToken');
-            window.location.href = '/admin-login.html';
+        window.addEventListener('load', () => {
+            fetchDoctors();
         });
 
-        // --- API HELPERS ---
-        const api = {
-            get: async (endpoint) => (await fetch(`${API_URL}/api/${endpoint}`, { headers: { 'Authorization': headers.Authorization } })).json(),
-            post: async (endpoint, data) => (await fetch(`${API_URL}/api/${endpoint}`, { method: 'POST', headers, body: JSON.stringify(data) })).json(),
-            put: async (endpoint, id, data) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'PUT', headers, body: JSON.stringify(data) })).json(),
-            delete: async (endpoint, id) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'DELETE', headers })).json()
-        };
-        
-        // --- MODAL HELPERS ---
-        const setupModal = (modalId, openBtnId, closeBtnSelector, formId, titleId) => {
-            const modal = document.getElementById(modalId);
-            const openBtn = document.getElementById(openBtnId);
-            const closeBtns = modal.querySelectorAll(closeBtnSelector);
-            const form = document.getElementById(formId);
-            const title = document.getElementById(titleId);
-            
-            const open = () => modal.classList.remove('hidden');
-            const close = () => {
-                modal.classList.add('hidden');
-                form.reset();
-                if (form.querySelector('input[type="hidden"]')) {
-                    form.querySelector('input[type="hidden"]').value = '';
+        async function fetchDoctors() {
+            const doctorListDiv = document.getElementById('doctors-list-public');
+            doctorListDiv.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Loading doctors...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/api/doctors`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-                if (window.quill && form.id === 'blog-form') quill.root.innerHTML = '';
-            };
+                const doctors = await response.json();
 
-            if(openBtn) openBtn.addEventListener('click', () => {
-                title.textContent = `Add New ${modalId.split('-')[0].charAt(0).toUpperCase() + modalId.split('-')[0].slice(1)}`;
-                open();
-            });
-            closeBtns.forEach(btn => btn.addEventListener('click', close));
-            return { open, close, form, title };
-        };
+                doctorListDiv.innerHTML = ''; // Loading message hatayein
 
-        // --- DASHBOARD ---
-        const loadDashboardStats = async () => {
-            try {
-                const stats = await api.get('stats');
-                document.getElementById('total-doctors').textContent = stats.doctors;
-                document.getElementById('total-services').textContent = stats.services;
-                document.getElementById('total-blogs').textContent = stats.blogs;
-                document.getElementById('total-appointments').textContent = stats.appointments;
-            } catch (error) { console.error('Error loading stats:', error); }
-        };
-        
-        // --- DOCTORS ---
-        let doctorsData = [];
-        const doctorListEl = document.getElementById('doctors-list');
-        const doctorModal = setupModal('doctor-modal', 'add-doctor-btn', 'doctor-form', 'doctor-modal-title');
-        doctorModal.form.innerHTML = `<input type="hidden" id="doctorId"><h3 class="form-section-title">Basic Information</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-name" class="block text-sm font-medium text-gray-700">Doctor Name</label><input type="text" id="doctor-name" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label><input type="url" id="doctor-imageUrl" required class="mt-1 block w-full px-3 py-2 border rounded-md" placeholder="https://example.com/image.png"></div><div><label for="doctor-specialty" class="block text-sm font-medium text-gray-700">Speciality</label><select id="doctor-specialty" required class="mt-1 block w-full px-3 py-2 border bg-white rounded-md"><option value="">Select Speciality</option><option value="Psychiatrist">Psychiatrist</option><option value="Clinical Psychologist">Clinical Psychologist</option></select></div><div><label for="doctor-qualification" class="block text-sm font-medium text-gray-700">Qualifications</label><input type="text" id="doctor-qualification" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div><label for="doctor-bio" class="block text-sm font-medium text-gray-700">Biography</label><textarea id="doctor-bio" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Education</h3><div><label for="doctor-education" class="block text-sm font-medium text-gray-700">Degrees (Har degree ek nayi line mein)</label><textarea id="doctor-education" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Contact & Social Media</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-phone" class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="doctor-phone" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-email" class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="doctor-email" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-location" class="block text-sm font-medium text-gray-700">Location / Chamber</label><input type="text" id="doctor-location" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label><input type="url" id="doctor-linkedin" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><h3 class="form-section-title">Working Hours</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="doctor-hours-mf" class="block text-sm font-medium text-gray-700">Monday - Friday</label><input type="text" id="doctor-hours-mf" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sat" class="block text-sm font-medium text-gray-700">Saturday</label><input type="text" id="doctor-hours-sat" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sun" class="block text-sm font-medium text-gray-700">Sunday</label><input type="text" id="doctor-hours-sun" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Doctor</button></div>`;
-        
-        const renderDoctors = (doctors) => {
-            doctorsData = doctors;
-            doctorListEl.innerHTML = doctors.map(doc => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${doc.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${doc.name}" class="w-full h-48 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold">${doc.name}</h3><p class="text-blue-600 font-semibold">${doc.specialty}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-doctor-btn" data-id="${doc._id}"><i class="fas fa-edit"></i> Edit</button><button class="text-red-500 hover:text-red-700 delete-doctor-btn" data-id="${doc._id}"><i class="fas fa-trash-alt"></i> Delete</button></div></div>`).join('');
-        };
-
-        doctorModal.form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('doctorId').value;
-            const doctorData = {
-                name: document.getElementById('doctor-name').value,
-                imageUrl: document.getElementById('doctor-imageUrl').value,
-                specialty: document.getElementById('doctor-specialty').value,
-                qualification: document.getElementById('doctor-qualification').value,
-                bio: document.getElementById('doctor-bio').value,
-                education: document.getElementById('doctor-education').value,
-                phone: document.getElementById('doctor-phone').value,
-                email: document.getElementById('doctor-email').value,
-                location: document.getElementById('doctor-location').value,
-                linkedin: document.getElementById('doctor-linkedin').value,
-                hours: {
-                    mf: document.getElementById('doctor-hours-mf').value,
-                    sat: document.getElementById('doctor-hours-sat').value,
-                    sun: document.getElementById('doctor-hours-sun').value,
+                if (doctors.length === 0) {
+                    doctorListDiv.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No doctors have been added yet.</p>';
+                    return;
                 }
-            };
-            try {
-                if (id) { await api.put('doctors', id, doctorData); } 
-                else { await api.post('doctors', doctorData); }
-                doctorModal.close();
-                initialize();
-            } catch(err) { alert(`Error: ${err.message}`); }
-        });
 
-        doctorListEl.addEventListener('click', async (e) => {
-            const editBtn = e.target.closest('.edit-doctor-btn');
-            const deleteBtn = e.target.closest('.delete-doctor-btn');
-            if (editBtn) {
-                const id = editBtn.dataset.id;
-                const doc = doctorsData.find(d => d._id === id);
-                doctorModal.title.textContent = 'Edit Doctor';
-                document.getElementById('doctorId').value = doc._id;
-                document.getElementById('doctor-name').value = doc.name;
-                document.getElementById('doctor-imageUrl').value = doc.imageUrl;
-                document.getElementById('doctor-specialty').value = doc.specialty;
-                document.getElementById('doctor-qualification').value = doc.qualification;
-                document.getElementById('doctor-bio').value = doc.bio;
-                document.getElementById('doctor-education').value = doc.education;
-                document.getElementById('doctor-phone').value = doc.phone;
-                document.getElementById('doctor-email').value = doc.email;
-                document.getElementById('doctor-location').value = doc.location;
-                document.getElementById('doctor-linkedin').value = doc.linkedin;
-                if(doc.hours){
-                    document.getElementById('doctor-hours-mf').value = doc.hours.mf;
-                    document.getElementById('doctor-hours-sat').value = doc.hours.sat;
-                    document.getElementById('doctor-hours-sun').value = doc.hours.sun;
-                }
-                doctorModal.open();
-            }
-            if (deleteBtn) {
-                if (confirm('Are you sure?')) { await api.delete('doctors', deleteBtn.dataset.id); initialize(); }
-            }
-        });
+                doctors.forEach(doctor => {
+                    // Aapke original HTML structure ke hisaab se doctor card banaya gaya hai
+                    const doctorCardHTML = `
+                      <div class="doctor-card">
+                        <div class="image-wrapper">
+                          <img src="${doctor.imageUrl}" alt="Photo of ${doctor.name}">
+                          <div class="image-overlay"></div>
+                          <a href="Appoinment.html" class="appointment-hover-btn">Get Appointment</a>
+                        </div>
+                        <div class="doctor-info">
+                          <p class="speciality">${doctor.specialty}</p>
+                          <h3><a href="doctor-detail.html?id=${doctor._id}">${doctor.name}</a></h3>
+                        </div>
+                      </div>
+                    `;
+                    doctorListDiv.innerHTML += doctorCardHTML;
+                });
 
-        // --- SERVICES ---
-        let servicesData = [];
-        const serviceListEl = document.getElementById('services-list');
-        const serviceModal = setupModal('service-modal', 'add-service-btn', 'service-form', 'service-modal-title');
-        serviceModal.form.innerHTML = `<input type="hidden" id="serviceId"><div><label for="service-name" class="block text-sm font-medium">Service Name</label><input type="text" id="service-name" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="service-icon" class="block text-sm font-medium">Font Awesome Icon Class</label><input type="text" id="service-icon" placeholder="e.g., fas fa-brain" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="service-description" class="block text-sm font-medium">Description</label><textarea id="service-description" rows="4" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Save Service</button></div>`;
-
-        const renderServices = (services) => {
-            servicesData = services;
-            serviceListEl.innerHTML = services.map(service => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col text-center items-center"><i class="${service.icon} fa-3x text-indigo-500 mb-4"></i><div class="flex-grow"><h3 class="text-lg font-bold">${service.name}</h3><p class="text-gray-600 text-sm">${service.description}</p></div><div class="mt-4"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-service-btn" data-id="${service._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-service-btn" data-id="${service._id}"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
-        };
-
-        serviceModal.form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('serviceId').value;
-            const serviceData = { name: document.getElementById('service-name').value, icon: document.getElementById('service-icon').value, description: document.getElementById('service-description').value };
-            try {
-                if (id) { await api.put('services', id, serviceData); } 
-                else { await api.post('services', serviceData); }
-                serviceModal.close();
-                initialize();
-            } catch(err) { alert(`Error: ${err.message}`); }
-        });
-
-        serviceListEl.addEventListener('click', async (e) => {
-            const editBtn = e.target.closest('.edit-service-btn');
-            const deleteBtn = e.target.closest('.delete-service-btn');
-            if (editBtn) {
-                const id = editBtn.dataset.id;
-                const service = servicesData.find(s => s._id === id);
-                serviceModal.title.textContent = 'Edit Service';
-                document.getElementById('serviceId').value = service._id;
-                document.getElementById('service-name').value = service.name;
-                document.getElementById('service-icon').value = service.icon;
-                document.getElementById('service-description').value = service.description;
-                serviceModal.open();
-            }
-            if (deleteBtn) {
-                if (confirm('Are you sure?')) { await api.delete('services', deleteBtn.dataset.id); initialize(); }
-            }
-        });
-
-        // --- BLOGS ---
-        let blogsData = [];
-        const blogListEl = document.getElementById('blogs-list');
-        const blogModal = setupModal('blog-modal', 'add-blog-btn', 'blog-form', 'blog-modal-title');
-        blogModal.form.innerHTML = `<input type="hidden" id="blogId"><h3 class="form-section-title">Blog Details</h3><div><label for="blog-title" class="block text-sm font-medium">Blog Title</label><input type="text" id="blog-title" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-author" class="block text-sm font-medium">Author Name</label><input type="text" id="blog-author" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-imageUrl" class="block text-sm font-medium">Main Blog Image URL</label><input type="url" id="blog-imageUrl" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-tags" class="block text-sm font-medium">Tags (comma separated)</label><input type="text" id="blog-tags" class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-excerpt" class="block text-sm font-medium">Excerpt (Short Summary)</label><textarea id="blog-excerpt" rows="3" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div><label class="block text-sm font-medium">Full Content</label><div id="blog-editor" class="mt-1 bg-white"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-green-600 hover:bg-green-700">Save Blog</button></div>`;
-        const quill = new Quill('#blog-editor', { theme: 'snow', modules: { toolbar: true } });
-
-        const renderBlogs = (blogs) => {
-            blogsData = blogs;
-            blogListEl.innerHTML = blogs.map(blog => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${blog.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${blog.title}" class="w-full h-40 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold truncate">${blog.title}</h3><p class="text-gray-500 text-sm mb-2">by ${blog.author}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-blog-btn" data-id="${blog._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-blog-btn" data-id="${blog._id}"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
-        };
-
-        blogModal.form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('blogId').value;
-            const blogData = {
-                title: document.getElementById('blog-title').value,
-                author: document.getElementById('blog-author').value,
-                imageUrl: document.getElementById('blog-imageUrl').value,
-                tags: document.getElementById('blog-tags').value.split(',').map(tag => tag.trim()).filter(Boolean),
-                excerpt: document.getElementById('blog-excerpt').value,
-                content: quill.root.innerHTML
-            };
-            try {
-                if (id) { await api.put('blogs', id, blogData); } 
-                else { await api.post('blogs', blogData); }
-                blogModal.close();
-                initialize();
-            } catch(err) { alert(`Error: ${err.message}`); }
-        });
-
-        blogListEl.addEventListener('click', async (e) => {
-            const editBtn = e.target.closest('.edit-blog-btn');
-            const deleteBtn = e.target.closest('.delete-blog-btn');
-            if (editBtn) {
-                const id = editBtn.dataset.id;
-                const blog = blogsData.find(b => b._id === id);
-                blogModal.title.textContent = 'Edit Blog Post';
-                document.getElementById('blogId').value = blog._id;
-                document.getElementById('blog-title').value = blog.title;
-                document.getElementById('blog-author').value = blog.author;
-                document.getElementById('blog-imageUrl').value = blog.imageUrl;
-                document.getElementById('blog-tags').value = blog.tags.join(', ');
-                document.getElementById('blog-excerpt').value = blog.excerpt;
-                quill.root.innerHTML = blog.content;
-                blogModal.open();
-            }
-            if (deleteBtn) {
-                if (confirm('Are you sure?')) { await api.delete('blogs', deleteBtn.dataset.id); initialize(); }
-            }
-        });
-
-        // --- APPOINTMENTS ---
-        const appointmentsListEl = document.getElementById('appointments-list');
-        const renderAppointments = (appointments) => {
-            if (!appointments || appointments.length === 0) {
-                appointmentsListEl.innerHTML = '<tr><td colspan="5" class="text-center p-4 text-gray-500">No appointments found.</td></tr>';
-                return;
-            }
-            appointmentsListEl.innerHTML = appointments.map(appt => `
-                <tr class="border-b"><td class="p-4">${appt.name}</td><td class="p-4">${appt.doctor}</td><td class="p-4">${new Date(appt.createdAt).toLocaleDateString()}</td><td class="p-4"><span class="px-2 py-1 rounded-full text-xs font-medium ${appt.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${appt.status}</span></td><td class="p-4">${appt.status === 'Pending' ? `<button class="text-green-500 hover:text-green-700 mr-2 complete-appt-btn" data-id="${appt._id}" title="Mark as Completed"><i class="fas fa-check-circle"></i></button>` : ''}<button class="text-red-500 hover:text-red-700 delete-appt-btn" data-id="${appt._id}" title="Delete"><i class="fas fa-trash-alt"></i></button></td></tr>`).join('');
-        };
-
-        appointmentsListEl.addEventListener('click', async (e) => {
-            const completeBtn = e.target.closest('.complete-appt-btn');
-            const deleteBtn = e.target.closest('.delete-appt-btn');
-            if (completeBtn) {
-                const id = completeBtn.dataset.id;
-                await api.put('appointments', id, { status: 'Completed' });
-                initialize();
-            }
-            if (deleteBtn) {
-                if (confirm('Are you sure?')) { await api.delete('appointments', deleteBtn.dataset.id); initialize(); }
-            }
-        });
-
-        // --- INITIAL LOAD ---
-        const initialize = async () => {
-            try {
-                await loadDashboardStats();
-                const [doctors, services, blogs, appointments] = await Promise.all([
-                    api.get('doctors'), api.get('services'), api.get('blogs'), api.get('appointments')
-                ]);
-                renderDoctors(doctors);
-                renderServices(services);
-                renderBlogs(blogs);
-                renderAppointments(appointments);
             } catch (error) {
-                console.error("Initialization failed:", error);
-                alert("Could not load data. Please check API_URL and server logs.");
+                console.error('Failed to fetch doctors:', error);
+                doctorListDiv.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Could not load doctors. Please try again later.</p>';
             }
-        };
-
-        initialize();
-    });
+        }
     </script>
+    
 </body>
 </html>

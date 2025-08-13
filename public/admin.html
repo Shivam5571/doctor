@@ -13,11 +13,22 @@
         .modal { transition: opacity 0.3s ease; overflow-y: auto; }
         .modal-content { transition: transform 0.3s ease; }
         .form-section-title { font-weight: 600; color: #1A76D1; margin-top: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; }
-        #blog-editor { height: 250px; }
-        .sidebar { background-color: #ffffff; border-right: 1px solid #e5e7eb; }
-        .sidebar .nav-link { color: #4b5563; }
-        .sidebar .nav-link:hover { background-color: #eff6ff; color: #2563eb; }
-        .sidebar .nav-link.active-link { background-color: #2563eb; color: #ffffff; }
+        #blog-editor { height: 300px; }
+        .sidebar {
+            background-color: #ffffff;
+            border-right: 1px solid #e5e7eb;
+        }
+        .sidebar .nav-link {
+            color: #4b5563;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #eff6ff;
+            color: #2563eb;
+        }
+        .sidebar .nav-link.active-link {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -42,9 +53,9 @@
     <!-- Main Content -->
     <main class="main-content ml-64 p-8">
         <section id="dashboard" class="content-section"><h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Total Doctors</h2><p id="total-doctors" class="text-3xl font-bold text-blue-500 mt-2">0</p></div><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Total Services</h2><p id="total-services" class="text-3xl font-bold text-indigo-500 mt-2">0</p></div><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Total Blogs</h2><p id="total-blogs" class="text-3xl font-bold text-green-500 mt-2">0</p></div><div class="bg-white p-6 rounded-lg shadow"><h2 class="text-xl font-semibold text-gray-600">Appointments</h2><p id="total-appointments" class="text-3xl font-bold text-yellow-500 mt-2">0</p></div></div></section>
-        <section id="doctors" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Doctors</h1><button id="add-doctor-btn" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Add New Doctor</button></div><div class="bg-white p-6 rounded-lg shadow-md"><div id="doctors-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
-        <section id="services" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Services</h1><button id="add-service-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700"><i class="fas fa-plus mr-2"></i>Add New Service</button></div><div class="bg-white p-6 rounded-lg shadow-md"><div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
-        <section id="blogs" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Blogs</h1><button id="add-blog-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700"><i class="fas fa-plus mr-2"></i>Add New Blog</button></div><div class="bg-white p-6 rounded-lg shadow-md"><div id="blogs-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
+        <section id="doctors" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Doctors</h1><button id="add-doctor-btn" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Add New Doctor</button></div><div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Doctors</h2><div id="doctors-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
+        <section id="services" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Services</h1><button id="add-service-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700"><i class="fas fa-plus mr-2"></i>Add New Service</button></div><div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Services</h2><div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
+        <section id="blogs" class="content-section hidden"><div class="flex justify-between items-center mb-6"><h1 class="text-3xl font-bold text-gray-800">Manage Blogs</h1><button id="add-blog-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700"><i class="fas fa-plus mr-2"></i>Add New Blog</button></div><div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-2xl font-semibold mb-4">Current Blogs</h2><div id="blogs-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div></section>
         <section id="appointments" class="content-section hidden"><h1 class="text-3xl font-bold text-gray-800 mb-6">Manage Appointments</h1><div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-4">Patient Name</th><th class="p-4">Doctor</th><th class="p-4">Date & Time</th><th class="p-4">Status</th><th class="p-4">Actions</th></tr></thead><tbody id="appointments-list"></tbody></table></div></section>
     </main>
 
@@ -58,7 +69,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // --- CONFIGURATION ---
-        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com'; // IMPORTANT: Isko apne real URL se badlein
+        const API_URL = 'https://your-app-name.onrender.com'; // IMPORTANT: Isko apne real Render backend URL se badlein
         const token = localStorage.getItem('adminToken');
         
         // --- AUTH CHECK ---
@@ -84,7 +95,6 @@
                 contentSections.forEach(s => s.id === targetId ? s.classList.remove('hidden') : s.classList.add('hidden'));
             });
         });
-        document.querySelector('.nav-link[data-target="dashboard"]').click();
         
         // --- LOGOUT ---
         document.getElementById('logoutButton').addEventListener('click', () => {
@@ -115,6 +125,7 @@
                 if (form.querySelector('input[type="hidden"]')) {
                     form.querySelector('input[type="hidden"]').value = '';
                 }
+                if (window.quill && form.id === 'blog-form') quill.root.innerHTML = '';
             };
 
             if(openBtn) openBtn.addEventListener('click', () => {
@@ -139,20 +150,16 @@
         // --- DOCTORS ---
         let doctorsData = [];
         const doctorListEl = document.getElementById('doctors-list');
-        const doctorModal = setupModal('doctor-modal', 'add-doctor-btn', '.close-modal-btn', 'doctor-form', 'doctor-modal-title');
-        doctorModal.form.innerHTML = `<input type="hidden" id="doctorId"><h3 class="form-section-title">Basic Information</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-name" class="block text-sm font-medium text-gray-700">Doctor Name</label><input type="text" id="doctor-name" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label><input type="url" id="doctor-imageUrl" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-specialty" class="block text-sm font-medium text-gray-700">Speciality</label><input type="text" id="doctor-specialty" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-qualification" class="block text-sm font-medium text-gray-700">Qualifications</label><input type="text" id="doctor-qualification" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div><label for="doctor-bio" class="block text-sm font-medium text-gray-700">Biography</label><textarea id="doctor-bio" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Doctor</button></div>`;
+        const doctorModal = setupModal('doctor-modal', 'add-doctor-btn', 'doctor-form', 'doctor-modal-title');
+        doctorModal.form.innerHTML = `<input type="hidden" id="doctorId"><h3 class="form-section-title">Basic Information</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-name" class="block text-sm font-medium text-gray-700">Doctor Name</label><input type="text" id="doctor-name" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label><input type="url" id="doctor-imageUrl" required class="mt-1 block w-full px-3 py-2 border rounded-md" placeholder="https://example.com/image.png"></div><div><label for="doctor-specialty" class="block text-sm font-medium text-gray-700">Speciality</label><select id="doctor-specialty" required class="mt-1 block w-full px-3 py-2 border bg-white rounded-md"><option value="">Select Speciality</option><option value="Psychiatrist">Psychiatrist</option><option value="Clinical Psychologist">Clinical Psychologist</option></select></div><div><label for="doctor-qualification" class="block text-sm font-medium text-gray-700">Qualifications</label><input type="text" id="doctor-qualification" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div><label for="doctor-bio" class="block text-sm font-medium text-gray-700">Biography</label><textarea id="doctor-bio" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Education</h3><div><label for="doctor-education" class="block text-sm font-medium text-gray-700">Degrees (Har degree ek nayi line mein)</label><textarea id="doctor-education" rows="4" required class="mt-1 block w-full px-3 py-2 border rounded-md"></textarea></div><h3 class="form-section-title">Contact & Social Media</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="doctor-phone" class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="doctor-phone" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-email" class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="doctor-email" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-location" class="block text-sm font-medium text-gray-700">Location / Chamber</label><input type="text" id="doctor-location" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label><input type="url" id="doctor-linkedin" class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><h3 class="form-section-title">Working Hours</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="doctor-hours-mf" class="block text-sm font-medium text-gray-700">Monday - Friday</label><input type="text" id="doctor-hours-mf" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sat" class="block text-sm font-medium text-gray-700">Saturday</label><input type="text" id="doctor-hours-sat" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div><div><label for="doctor-hours-sun" class="block text-sm font-medium text-gray-700">Sunday</label><input type="text" id="doctor-hours-sun" required class="mt-1 block w-full px-3 py-2 border rounded-md"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Doctor</button></div>`;
         
         const renderDoctors = (doctors) => {
             doctorsData = doctors;
             doctorListEl.innerHTML = doctors.map(doc => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col">
-                    <img src="${doc.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${doc.name}" class="w-full h-48 object-cover rounded-md mb-4">
-                    <div class="flex-grow"><h3 class="text-lg font-bold">${doc.name}</h3><p class="text-blue-600 font-semibold">${doc.specialty}</p></div>
-                    <div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-doctor-btn" data-id="${doc._id}"><i class="fas fa-edit"></i> Edit</button><button class="text-red-500 hover:text-red-700 delete-doctor-btn" data-id="${doc._id}"><i class="fas fa-trash-alt"></i> Delete</button></div>
-                </div>`).join('');
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${doc.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${doc.name}" class="w-full h-48 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold">${doc.name}</h3><p class="text-blue-600 font-semibold">${doc.specialty}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-doctor-btn" data-id="${doc._id}"><i class="fas fa-edit"></i> Edit</button><button class="text-red-500 hover:text-red-700 delete-doctor-btn" data-id="${doc._id}"><i class="fas fa-trash-alt"></i> Delete</button></div></div>`).join('');
         };
 
-        doctorForm.addEventListener('submit', async (e) => {
+        doctorModal.form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('doctorId').value;
             const doctorData = {
@@ -160,14 +167,21 @@
                 imageUrl: document.getElementById('doctor-imageUrl').value,
                 specialty: document.getElementById('doctor-specialty').value,
                 qualification: document.getElementById('doctor-qualification').value,
-                bio: document.getElementById('doctor-bio').value
+                bio: document.getElementById('doctor-bio').value,
+                education: document.getElementById('doctor-education').value,
+                phone: document.getElementById('doctor-phone').value,
+                email: document.getElementById('doctor-email').value,
+                location: document.getElementById('doctor-location').value,
+                linkedin: document.getElementById('doctor-linkedin').value,
+                hours: {
+                    mf: document.getElementById('doctor-hours-mf').value,
+                    sat: document.getElementById('doctor-hours-sat').value,
+                    sun: document.getElementById('doctor-hours-sun').value,
+                }
             };
             try {
-                if (id) {
-                    await api.put('doctors', id, doctorData);
-                } else {
-                    await api.post('doctors', doctorData);
-                }
+                if (id) { await api.put('doctors', id, doctorData); } 
+                else { await api.post('doctors', doctorData); }
                 doctorModal.close();
                 initialize();
             } catch(err) { alert(`Error: ${err.message}`); }
@@ -186,31 +200,33 @@
                 document.getElementById('doctor-specialty').value = doc.specialty;
                 document.getElementById('doctor-qualification').value = doc.qualification;
                 document.getElementById('doctor-bio').value = doc.bio;
+                document.getElementById('doctor-education').value = doc.education;
+                document.getElementById('doctor-phone').value = doc.phone;
+                document.getElementById('doctor-email').value = doc.email;
+                document.getElementById('doctor-location').value = doc.location;
+                document.getElementById('doctor-linkedin').value = doc.linkedin;
+                if(doc.hours){
+                    document.getElementById('doctor-hours-mf').value = doc.hours.mf;
+                    document.getElementById('doctor-hours-sat').value = doc.hours.sat;
+                    document.getElementById('doctor-hours-sun').value = doc.hours.sun;
+                }
                 doctorModal.open();
             }
             if (deleteBtn) {
-                const id = deleteBtn.dataset.id;
-                if (confirm('Are you sure you want to delete this doctor?')) {
-                    await api.delete('doctors', id);
-                    initialize();
-                }
+                if (confirm('Are you sure?')) { await api.delete('doctors', deleteBtn.dataset.id); initialize(); }
             }
         });
 
         // --- SERVICES ---
         let servicesData = [];
         const serviceListEl = document.getElementById('services-list');
-        const serviceModal = setupModal('service-modal', 'add-service-btn', '.close-modal-btn', 'service-form', 'service-modal-title');
+        const serviceModal = setupModal('service-modal', 'add-service-btn', 'service-form', 'service-modal-title');
         serviceModal.form.innerHTML = `<input type="hidden" id="serviceId"><div><label for="service-name" class="block text-sm font-medium">Service Name</label><input type="text" id="service-name" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="service-icon" class="block text-sm font-medium">Font Awesome Icon Class</label><input type="text" id="service-icon" placeholder="e.g., fas fa-brain" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="service-description" class="block text-sm font-medium">Description</label><textarea id="service-description" rows="4" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Save Service</button></div>`;
 
         const renderServices = (services) => {
             servicesData = services;
             serviceListEl.innerHTML = services.map(service => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col text-center items-center">
-                    <i class="${service.icon} fa-3x text-indigo-500 mb-4"></i>
-                    <div class="flex-grow"><h3 class="text-lg font-bold">${service.name}</h3><p class="text-gray-600 text-sm">${service.description}</p></div>
-                    <div class="mt-4"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-service-btn" data-id="${service._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-service-btn" data-id="${service._id}"><i class="fas fa-trash-alt"></i></button></div>
-                </div>`).join('');
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col text-center items-center"><i class="${service.icon} fa-3x text-indigo-500 mb-4"></i><div class="flex-grow"><h3 class="text-lg font-bold">${service.name}</h3><p class="text-gray-600 text-sm">${service.description}</p></div><div class="mt-4"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-service-btn" data-id="${service._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-service-btn" data-id="${service._id}"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
         };
 
         serviceModal.form.addEventListener('submit', async (e) => {
@@ -246,18 +262,14 @@
         // --- BLOGS ---
         let blogsData = [];
         const blogListEl = document.getElementById('blogs-list');
-        const blogModal = setupModal('blog-modal', 'add-blog-btn', '.close-modal-btn', 'blog-form', 'blog-modal-title');
+        const blogModal = setupModal('blog-modal', 'add-blog-btn', 'blog-form', 'blog-modal-title');
         blogModal.form.innerHTML = `<input type="hidden" id="blogId"><h3 class="form-section-title">Blog Details</h3><div><label for="blog-title" class="block text-sm font-medium">Blog Title</label><input type="text" id="blog-title" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-author" class="block text-sm font-medium">Author Name</label><input type="text" id="blog-author" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-imageUrl" class="block text-sm font-medium">Main Blog Image URL</label><input type="url" id="blog-imageUrl" required class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-tags" class="block text-sm font-medium">Tags (comma separated)</label><input type="text" id="blog-tags" class="mt-1 block w-full p-2 border rounded-md"></div><div><label for="blog-excerpt" class="block text-sm font-medium">Excerpt (Short Summary)</label><textarea id="blog-excerpt" rows="3" required class="mt-1 block w-full p-2 border rounded-md"></textarea></div><div><label class="block text-sm font-medium">Full Content</label><div id="blog-editor" class="mt-1 bg-white"></div></div><div class="text-right pt-4"><button type="submit" class="inline-flex justify-center py-2 px-4 border rounded-md text-white bg-green-600 hover:bg-green-700">Save Blog</button></div>`;
-        const quill = new Quill('#blog-editor', { theme: 'snow', modules: { toolbar: [[{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], ['blockquote', 'code-block'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['link', 'image']] } });
+        const quill = new Quill('#blog-editor', { theme: 'snow', modules: { toolbar: true } });
 
         const renderBlogs = (blogs) => {
             blogsData = blogs;
             blogListEl.innerHTML = blogs.map(blog => `
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col">
-                    <img src="${blog.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${blog.title}" class="w-full h-40 object-cover rounded-md mb-4">
-                    <div class="flex-grow"><h3 class="text-lg font-bold truncate">${blog.title}</h3><p class="text-gray-500 text-sm mb-2">by ${blog.author}</p></div>
-                    <div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-blog-btn" data-id="${blog._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-blog-btn" data-id="${blog._id}"><i class="fas fa-trash-alt"></i></button></div>
-                </div>`).join('');
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col"><img src="${blog.imageUrl || 'https://placehold.co/400x300/EBF4FF/7F9CF5?text=Image'}" alt="${blog.title}" class="w-full h-40 object-cover rounded-md mb-4"><div class="flex-grow"><h3 class="text-lg font-bold truncate">${blog.title}</h3><p class="text-gray-500 text-sm mb-2">by ${blog.author}</p></div><div class="mt-4 text-right"><button class="text-blue-500 hover:text-blue-700 mr-2 edit-blog-btn" data-id="${blog._id}"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700 delete-blog-btn" data-id="${blog._id}"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
         };
 
         blogModal.form.addEventListener('submit', async (e) => {
@@ -267,7 +279,7 @@
                 title: document.getElementById('blog-title').value,
                 author: document.getElementById('blog-author').value,
                 imageUrl: document.getElementById('blog-imageUrl').value,
-                tags: document.getElementById('blog-tags').value.split(',').map(tag => tag.trim()),
+                tags: document.getElementById('blog-tags').value.split(',').map(tag => tag.trim()).filter(Boolean),
                 excerpt: document.getElementById('blog-excerpt').value,
                 content: quill.root.innerHTML
             };
@@ -329,10 +341,7 @@
             try {
                 await loadDashboardStats();
                 const [doctors, services, blogs, appointments] = await Promise.all([
-                    api.get('doctors'),
-                    api.get('services'),
-                    api.get('blogs'),
-                    api.get('appointments')
+                    api.get('doctors'), api.get('services'), api.get('blogs'), api.get('appointments')
                 ]);
                 renderDoctors(doctors);
                 renderServices(services);
@@ -340,7 +349,7 @@
                 renderAppointments(appointments);
             } catch (error) {
                 console.error("Initialization failed:", error);
-                alert("Could not load data from the server. Please check your connection and API_URL.");
+                alert("Could not load data. Please check API_URL and server logs.");
             }
         };
 
