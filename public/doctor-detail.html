@@ -100,135 +100,159 @@
     <section class="page-hero">
       <div class="overlay">
         <h1>Doctor Details</h1>
-        <p class="breadcrumb"><a href="index.html">Home</a><span>&gt;</span><a href="Doctor.html">Doctors</a><span>&gt;</span><span id="breadcrumb-doc-name"></span></p>
+        <p class="breadcrumb"><a href="index.html">Home</a><span>&gt;</span><a href="Doctor.html">Doctors</a><span>&gt;</span><span id="breadcrumb-doc-name">Loading...</span></p>
       </div>
     </section>
 
-    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 my-8">
-            
-            <div class="lg:col-span-4 contact-card p-8">
-                <img id="doc-image" src="" alt="" class="w-full rounded-lg mb-8 shadow-md">
-                <h3>Contact Info</h3>
-                <div id="contact-info-container"></div>
-                <div id="social-links-container" class="flex space-x-4 mt-4 mb-8"></div>
-                <h3>Working Hours</h3>
-                <div id="working-hours-container"></div>
-            </div>
-
-            <div class="lg:col-span-8 info-section pt-4">
-                <h2 id="doc-name" class="text-4xl font-bold text-gray-800"></h2>
-                <p id="doc-qualification" class="text-xl text-gray-500 mt-1 mb-8"></p>
-                <h3>Biography</h3>
-                <p id="doc-bio" class="mb-8"></p>
-                <h3>Education</h3>
-                <ul id="doc-education" class="mb-8"></ul>
-            </div>
-
-        </div>
+    <main id="main-content" class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Content will be loaded here by JavaScript -->
+        <p id="loading-message" class="text-center text-xl">Loading doctor details...</p>
     </main>
     
     <footer class="footer-section">
-  <div class="footer-container">
-
-    <!-- About Us -->
-    <div class="footer-column">
-      <h3>About Us</h3>
-      <div class="footer-line"></div>
-      <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
-      <div class="footer-social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-google-plus-g"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-vimeo-v"></i></a>
-        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+      <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+          <h3>About Us</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="footer-line"></div>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Contact.html">About Us</a></li>
+            <li><a href="Service.html">Services</a></li>
+            <li><a href="#">Our Cases</a></li>
+            <li><a href="#">Other Links</a></li>
+            <li><a href="Appoinment.html">Appoinment</a></li>
+            <li><a href="#">Finance</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Open Hours -->
+        <div class="footer-column">
+          <h3>Open Hours</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
+          <ul class="open-hours">
+            <li><span>Monday - Friday:</span> 8.00–20.00</li>
+            <li><span>Saturday:</span> 9.00–18.30</li>
+            <li><span>Monday - Thursday:</span> 9.00–15.00</li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+        <div class="footer-column">
+          <h3>Newsletter</h3>
+          <div class="footer-line"></div>
+          <p>Subscribe to our newsletter to get all our news in your inbox.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Email Address" required>
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
       </div>
-    </div>
-
-    <!-- Quick Links -->
-    <div class="footer-column">
-      <h3>Quick Links</h3>
-      <div class="footer-line"></div>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="Contact.html">About Us</a></li>
-        <li><a href="Service.html">Services</a></li>
-        <li><a href="#">Our Cases</a></li>
-        <li><a href="#">Other Links</a></li>
-        <li><a href="Appoinment.html">Appoinment</a></li>
-        <li><a href="#">Finance</a></li>
-        <li><a href="#">Testimonials</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="Contact.html">Contact Us</a></li>
-      </ul>
-    </div>
-
-    <!-- Open Hours -->
-    <div class="footer-column">
-      <h3>Open Hours</h3>
-      <div class="footer-line"></div>
-      <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
-      <ul class="open-hours">
-        <li><span>Monday - Friday:</span> 8.00–20.00</li>
-        <li><span>Saturday:</span> 9.00–18.30</li>
-        <li><span>Monday - Thursday:</span> 9.00–15.00</li>
-      </ul>
-    </div>
-
-    <!-- Newsletter -->
-    <div class="footer-column">
-      <h3>Newsletter</h3>
-      <div class="footer-line"></div>
-      <p>Subscribe to our newsletter to get all our news in your inbox.</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Email Address" required>
-        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-      </form>
-    </div>
-
-  </div>
-</footer>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const doctorId = urlParams.get('id');
-            if (!doctorId) { return; }
+            const mainContent = document.getElementById('main-content');
+            const loadingMessage = document.getElementById('loading-message');
+            const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
 
-            const allDoctors = JSON.parse(localStorage.getItem('doctors')) || [];
-            const doctor = allDoctors.find(d => d.id == doctorId);
-            if (!doctor) { return; }
+            if (!doctorId) {
+                loadingMessage.textContent = 'No doctor ID provided.';
+                loadingMessage.style.color = 'red';
+                return;
+            }
 
+            try {
+                // Fetch all doctors and find the one with the matching ID
+                const response = await fetch(`${API_URL}/api/doctors`);
+                if (!response.ok) throw new Error('Network response was not ok.');
+                
+                const allDoctors = await response.json();
+                const doctor = allDoctors.find(d => d._id === doctorId);
+
+                if (!doctor) {
+                    throw new Error('Doctor not found.');
+                }
+
+                // Clear loading message and render doctor details
+                loadingMessage.style.display = 'none';
+                renderDoctorDetails(doctor);
+
+            } catch (error) {
+                console.error('Failed to fetch doctor details:', error);
+                loadingMessage.textContent = `Error: ${error.message}. Please try again later.`;
+                loadingMessage.style.color = 'red';
+            }
+        });
+
+        function renderDoctorDetails(doctor) {
+            document.title = `${doctor.name} - Details`;
             document.getElementById('breadcrumb-doc-name').textContent = doctor.name;
-            document.getElementById('doc-image').src = doctor.image;
-            document.getElementById('doc-image').alt = `Photo of ${doctor.name}`;
-            document.getElementById('doc-name').textContent = doctor.name;
-            document.getElementById('doc-qualification').textContent = doctor.qualification || '';
-            document.getElementById('doc-bio').textContent = doctor.bio || 'No biography available.';
-
-            const eduContainer = document.getElementById('doc-education');
+            
+            const mainContent = document.getElementById('main-content');
+            
+            // Prepare education list
+            let educationHtml = '';
             if (doctor.education) {
                 doctor.education.split('\n').forEach(item => {
-                    if(item) eduContainer.innerHTML += `<li>${item}</li>`;
+                    if(item) educationHtml += `<li>${item}</li>`;
                 });
             }
 
-            const contactContainer = document.getElementById('contact-info-container');
-            contactContainer.innerHTML = '';
-            if (doctor.phone) contactContainer.innerHTML += `<div class="info-item"><i class="fas fa-phone-alt"></i><span>${doctor.phone}</span></div>`;
-            if (doctor.email) contactContainer.innerHTML += `<div class="info-item"><i class="fas fa-envelope"></i><span>${doctor.email}</span></div>`;
-            if (doctor.location) contactContainer.innerHTML += `<div class="info-item"><i class="fas fa-map-marker-alt"></i><span>${doctor.location}</span></div>`;
+            // Prepare contact info
+            let contactHtml = '';
+            if (doctor.phone) contactHtml += `<div class="info-item"><i class="fas fa-phone-alt"></i><span>${doctor.phone}</span></div>`;
+            if (doctor.email) contactHtml += `<div class="info-item"><i class="fas fa-envelope"></i><span>${doctor.email}</span></div>`;
+            if (doctor.location) contactHtml += `<div class="info-item"><i class="fas fa-map-marker-alt"></i><span>${doctor.location}</span></div>`;
+            
+            // Prepare social links
+            let socialHtml = '';
+            if (doctor.linkedin) socialHtml += `<a href="${doctor.linkedin}" target="_blank" class="text-gray-400 hover:text-blue-600"><i class="fab fa-linkedin-in fa-lg"></i></a>`;
 
-            const socialContainer = document.getElementById('social-links-container');
-            socialContainer.innerHTML = '';
-            if (doctor.linkedin) socialContainer.innerHTML += `<a href="${doctor.linkedin}" target="_blank" class="text-gray-400 hover:text-blue-600"><i class="fab fa-linkedin-in fa-lg"></i></a>`;
+            // Prepare working hours
+            let hoursHtml = '';
+            if (doctor.hours && doctor.hours.mf) hoursHtml += `<div class="working-hours-item"><span>Monday - Friday</span><span>${doctor.hours.mf}</span></div>`;
+            if (doctor.hours && doctor.hours.sat) hoursHtml += `<div class="working-hours-item"><span>Saturday</span><span>${doctor.hours.sat}</span></div>`;
+            if (doctor.hours && doctor.hours.sun) hoursHtml += `<div class="working-hours-item"><span>Sunday</span><span>${doctor.hours.sun}</span></div>`;
 
-            const hoursContainer = document.getElementById('working-hours-container');
-            hoursContainer.innerHTML = '';
-            if (doctor.hours && doctor.hours.mf) hoursContainer.innerHTML += `<div class="working-hours-item"><span>Monday - Friday</span><span>${doctor.hours.mf}</span></div>`;
-            if (doctor.hours && doctor.hours.sat) hoursContainer.innerHTML += `<div class="working-hours-item"><span>Saturday</span><span>${doctor.hours.sat}</span></div>`;
-            if (doctor.hours && doctor.hours.sun) hoursContainer.innerHTML += `<div class="working-hours-item"><span>Sunday</span><span>${doctor.hours.sun}</span></div>`;
-        });
+            mainContent.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 my-8">
+                    <div class="lg:col-span-4 contact-card p-8 self-start">
+                        <img src="${doctor.imageUrl || 'https://placehold.co/400x400/EBF4FF/7F9CF5?text=Photo'}" alt="Photo of ${doctor.name}" class="w-full rounded-lg mb-8 shadow-md">
+                        <h3>Contact Info</h3>
+                        <div>${contactHtml}</div>
+                        <div class="flex space-x-4 mt-4 mb-8">${socialHtml}</div>
+                        <h3>Working Hours</h3>
+                        <div>${hoursHtml}</div>
+                    </div>
+                    <div class="lg:col-span-8 info-section pt-4">
+                        <h2 class="text-4xl font-bold text-gray-800">${doctor.name}</h2>
+                        <p class="text-xl text-gray-500 mt-1 mb-8">${doctor.qualification || ''}</p>
+                        <h3>Biography</h3>
+                        <p class="mb-8">${doctor.bio || 'No biography available.'}</p>
+                        <h3>Education</h3>
+                        <ul class="mb-8">${educationHtml}</ul>
+                    </div>
+                </div>
+            `;
+        }
     </script>
 
 </body>
