@@ -62,7 +62,8 @@
         const token = localStorage.getItem('adminToken');
         if (!token) {
             // Use replace() so the user can't use the back button to return to a logged-out page.
-            window.location.replace('/admin-login.html'); 
+            // FIX: Construct the full URL to avoid the 'not a valid URL' error.
+            window.location.replace(window.location.origin + '/admin-login.html'); 
             return; // Stop any further script execution if not logged in.
         }
         // If the token exists, we can safely show the page content.
@@ -92,7 +93,8 @@
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('adminToken');
             // Use replace() to prevent back button issues.
-            window.location.replace('/admin-login.html');
+            // FIX: Construct the full URL.
+            window.location.replace(window.location.origin + '/admin-login.html');
         });
 
         // --- BUG FIX: API HELPERS with Token Check ---
@@ -102,7 +104,8 @@
                 // If token is expired or invalid, server will send 401 or 403.
                 if (response.status === 401 || response.status === 403) {
                     localStorage.removeItem('adminToken');
-                    window.location.replace('/admin-login.html');
+                    // FIX: Construct the full URL.
+                    window.location.replace(window.location.origin + '/admin-login.html');
                     throw new Error('Invalid token. Redirecting to login.');
                 }
                 return response.json();
@@ -408,6 +411,7 @@
                 if (confirm('Are you sure?')) { await api.delete('appointments', deleteBtn.dataset.id); initialize(); }
             }
         });
+
         // --- INITIAL LOAD ---
         const initialize = async () => {
             try {
