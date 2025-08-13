@@ -94,7 +94,7 @@
             localStorage.removeItem('adminToken');
             // Use replace() to prevent back button issues.
             // FIX: Construct the full URL.
-            window.location.replace(window.location.origin + '/admin-login.html');
+            window.location.replace(window.location.origin + '/admin-login.html/');
         });
 
         // --- BUG FIX: API HELPERS with Token Check ---
@@ -105,7 +105,7 @@
                 if (response.status === 401 || response.status === 403) {
                     localStorage.removeItem('adminToken');
                     // FIX: Construct the full URL.
-                    window.location.replace(window.location.origin + '/admin-login.html');
+                    window.location.replace(window.location.origin + '/admin-login.html/');
                     throw new Error('Invalid token. Redirecting to login.');
                 }
                 return response.json();

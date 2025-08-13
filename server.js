@@ -139,7 +139,7 @@ app.get('/api/stats', verifyToken, async (req, res) => {
 });
 
 // --- Serve Static HTML files ---
-app.get('/admin-login.html', (req, res) => res.sendFile(path.join(__dirname, 'admin-login.html')));
-app.get('/admin.html', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+app.get('/admin-login.html/', (req, res) => res.sendFile(path.join(__dirname, 'admin-login.html')));
+app.get('/admin.html/', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
