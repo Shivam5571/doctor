@@ -60,10 +60,18 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     
     <script>
-        // This main script will only run if the user is authenticated (checked in the head)
     document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('adminToken'); // Token is guaranteed to exist here
+        const token = localStorage.getItem('adminToken');
         
+        // BUG FIX: Check for token first. If it doesn't exist, redirect and stop execution.
+        if (!token) {
+            window.location.replace(window.location.origin + '/admin-login.html');
+            return;
+        }
+
+        // BUG FIX: If token EXISTS, then make the body visible.
+        document.body.style.display = 'block';
+
         const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
         const headers = {
             'Content-Type': 'application/json',
@@ -84,7 +92,7 @@
         
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('adminToken');
-            window.location.replace(window.location.origin + '/admin-login.html/');
+            window.location.replace(window.location.origin + '/admin-login.html');
         });
 
         const api = {
@@ -92,7 +100,7 @@
                 const response = await fetch(`${API_URL}/api/${endpoint}`, { headers: { 'Authorization': headers.Authorization } });
                 if (response.status === 401 || response.status === 403) {
                     localStorage.removeItem('adminToken');
-                    window.location.replace(window.location.origin + '/admin-login.html/');
+                    window.location.replace(window.location.origin + '/admin-login.html');
                     throw new Error('Invalid token. Redirecting to login.');
                 }
                 return response.json();
