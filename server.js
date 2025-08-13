@@ -14,7 +14,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static('public'));
 
-// --- Database Connection and Models ---
+// --- Database Connection ---
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://shivamverma200423:Cf3Y83mfOBaX0ayq@doctor0.g3rm9yl.mongodb.net/?retryWrites=true&w=majority&appName=DOCTOR0'; 
 const JWT_SECRET = process.env.JWT_SECRET || 'Cf3Y83mfOBaX0ayq';
 
@@ -23,21 +23,25 @@ mongoose.connect(MONGO_URI)
     .catch(err => console.error('MongoDB connection error:', err));
 
 // --- Schemas & Models ---
-const adminSchema = new mongoose.Schema({ /* ... aapka admin schema ... */ });
+const adminSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
+});
 const Admin = mongoose.model('Admin', adminSchema);
 
+// UPDATED DOCTOR SCHEMA TO MATCH YOUR FORM
 const doctorSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    specialty: { type: String },
-    qualification: { type: String },
-    bio: { type: String },
-    education: { type: String },
-    phone: { type: String },
-    email: { type: String },
-    location: { type: String },
-    linkedin: { type: String },
+    specialty: String,
+    qualification: String,
+    bio: String,
+    education: String,
+    phone: String,
+    email: String,
+    location: String,
+    linkedin: String,
     hours: { mf: String, sat: String, sun: String },
-    imageUrl: { type: String }
+    imageUrl: String 
 });
 const Doctor = mongoose.model('Doctor', doctorSchema);
 
@@ -52,9 +56,9 @@ const blogSchema = new mongoose.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     content: { type: String, required: true },
-    excerpt: { type: String },
-    tags: { type: [String] },
-    imageUrl: { type: String },
+    excerpt: String,
+    tags: [String],
+    imageUrl: String,
     pinned: { type: Boolean, default: false }
 }, { timestamps: true });
 const Blog = mongoose.model('Blog', blogSchema);
@@ -66,7 +70,7 @@ const appointmentSchema = new mongoose.Schema({
     doctor: { type: String, required: true },
     date: { type: String, required: true },
     time: { type: String, required: true },
-    message: { type: String },
+    message: String,
     status: { type: String, default: 'Pending' }
 }, { timestamps: true });
 const Appointment = mongoose.model('Appointment', appointmentSchema);
@@ -124,17 +128,17 @@ app.put('/api/appointments/:id', verifyToken, async (req, res) => res.json(await
 app.delete('/api/appointments/:id', verifyToken, async (req, res) => res.json(await Appointment.findByIdAndDelete(req.params.id)));
 
 // DASHBOARD STATS
-app.get('/api/stats', verifyToken, async (req, res) => { /* ... same as before ... */ });
+app.get('/api/stats', verifyToken, async (req, res) => {
+    try {
+        const [doctorCount, serviceCount, blogCount, appointmentCount] = await Promise.all([
+            Doctor.countDocuments(), Service.countDocuments(), Blog.countDocuments(), Appointment.countDocuments()
+        ]);
+        res.json({ doctors: doctorCount, services: serviceCount, blogs: blogCount, appointments: appointmentCount });
+    } catch (error) { res.status(500).json({ message: 'Error fetching stats' }); }
+});
 
 // --- Serve Static HTML files ---
 app.get('/admin-login.html', (req, res) => res.sendFile(path.join(__dirname, 'admin-login.html')));
-
-// PROTECTED ROUTE FOR ADMIN PANEL
-app.get('/admin.html', (req, res) => {
-    // Yeh file ko serve karne se pehle check karega.
-    // Asli protection client-side script mein hai jo token check karta hai.
-    // Yeh bas ek fallback hai.
-    res.sendFile(path.join(__dirname, 'admin.html'));
-});
+app.get('/admin.html', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
