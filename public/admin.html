@@ -84,7 +84,7 @@
         
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('adminToken');
-            window.location.replace(window.location.origin + '/admin-login.html');
+            window.location.replace(window.location.origin + '/admin-login.html/');
         });
 
         const api = {
@@ -92,7 +92,7 @@
                 const response = await fetch(`${API_URL}/api/${endpoint}`, { headers: { 'Authorization': headers.Authorization } });
                 if (response.status === 401 || response.status === 403) {
                     localStorage.removeItem('adminToken');
-                    window.location.replace(window.location.origin + '/admin-login.html');
+                    window.location.replace(window.location.origin + '/admin-login.html/');
                     throw new Error('Invalid token. Redirecting to login.');
                 }
                 return response.json();
