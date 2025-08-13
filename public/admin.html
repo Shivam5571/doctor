@@ -69,12 +69,12 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // --- CONFIGURATION ---
-        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com'; // IMPORTANT: Isko apne real Render backend URL se badlein
+        const API_URL = 'https://your-app-name.onrender.com'; // IMPORTANT: Isko apne real Render backend URL se badlein
         const token = localStorage.getItem('adminToken');
         
         // --- AUTH CHECK ---
         if (!token) {
-            window.location.href = './admin-login.html'; // FIX: Redirects correctly
+            window.location.href = window.location.origin + '/admin-login.html'; // FIX: Redirects correctly
             return;
         }
         
@@ -99,7 +99,7 @@
         // --- LOGOUT ---
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('adminToken');
-            window.location.href = './admin-login.html'; // FIX: Redirects correctly
+            window.location.href = window.location.origin + '/admin-login.html'; // FIX: Redirects correctly
         });
 
         // --- API HELPERS ---
