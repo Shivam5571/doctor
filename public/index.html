@@ -46,7 +46,7 @@
 </p>
 
     <div class="hero-buttons push-down">
- <a href="Appoinment.html">
+  <a href="Appoinment.html">
   <button class="btn blue">Get Appointment</button>
 </a>
 <a href="Appoinment.html">
@@ -360,25 +360,24 @@
         const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
         blogsListContainer.innerHTML = '';
 
-        if (blogs.length === 0) {
-          blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No blog posts have been added yet.</p>';
+        const pinnedBlogs = blogs.filter(blog => blog.pinned);
+        
+        if (pinnedBlogs.length > 0) {
+            pinnedBlogs.forEach(blog => {
+                const blogCardHTML = `
+                  <div class="blog-card pinned">
+                    <img src="${blog.image}" alt="Blog Image for ${blog.title}">
+                    <div class="blog-content">
+                      <div class="blog-date">${blog.date}</div>
+                      <div class="blog-title"><a href="blog-detail.html?id=${blog.id}">${blog.title}</a></div>
+                      <div class="blog-desc">${blog.excerpt}</div>
+                    </div>
+                  </div>
+                `;
+                blogsListContainer.innerHTML += blogCardHTML;
+            });
         } else {
-          blogs.forEach(blog => {
-            const blogCardHTML = `
-              <div class="blog-card">
-                <img src="${blog.image}" alt="Blog Image for ${blog.title}">
-                <div class="blog-content">
-                  <div class="blog-date">${blog.date}</div>
-                  
-                  <!-- UPDATE: Title ab ek link hai -->
-                  <div class="blog-title"><a href="blog-detail.html?id=${blog.id}">${blog.title}</a></div>
-                  
-                  <div class="blog-desc">${blog.excerpt}</div>
-                </div>
-              </div>
-            `;
-            blogsListContainer.innerHTML += blogCardHTML;
-          });
+            blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No featured blog posts at the moment. Please check back later!</p>';
         }
       });
     </script>
