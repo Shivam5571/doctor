@@ -60,14 +60,10 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     
     <script>
+        // This main script will only run if the user is authenticated (checked in the head)
     document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('adminToken');
-        if (!token) {
-            window.location.replace(window.location.origin + '/admin-login.html'); 
-            return;
-        }
-        document.body.style.display = 'block';
-
+        const token = localStorage.getItem('adminToken'); // Token is guaranteed to exist here
+        
         const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
         const headers = {
             'Content-Type': 'application/json',
@@ -104,7 +100,6 @@
             post: async (endpoint, data) => (await fetch(`${API_URL}/api/${endpoint}`, { method: 'POST', headers, body: JSON.stringify(data) })).json(),
             put: async (endpoint, id, data) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'PUT', headers, body: JSON.stringify(data) })).json(),
             delete: async (endpoint, id) => (await fetch(`${API_URL}/api/${endpoint}/${id}`, { method: 'DELETE', headers })).json(),
-            // NEW: Special PUT for toggling pin
             togglePin: async (id) => (await fetch(`${API_URL}/api/blogs/${id}/toggle-pin`, { method: 'PUT', headers })).json()
         };
         
