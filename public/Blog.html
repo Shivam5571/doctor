@@ -5,20 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Blogs</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/doctor.css"> <!-- Assuming blog styles are in your main CSS -->
+  <!-- Assuming you have a specific CSS for the blogs or it's in style.css -->
+  <!-- <link rel="stylesheet" href="css/doctor.css"> --> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
       body {
           font-family: 'Poppins', sans-serif;
       }
+      .blogs-section {
+        padding: 60px 5%;
+        background-color: #f9f9f9;
+      }
+      .blogs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .blog-card {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      }
+      .blog-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+      .blog-content {
+        padding: 20px;
+      }
+      .blog-date {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 10px;
+      }
+      .blog-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
       .blog-title a {
-          color: inherit;
-          text-decoration: none;
-          transition: color 0.3s ease;
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
       }
       .blog-title a:hover {
-          color: #1A76D1;
+        color: #1A76D1;
+      }
+      .blog-desc {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.6;
       }
   </style>
 </head>
@@ -48,96 +94,109 @@
 
     <section id="blogs" class="blogs-section">
       <div class="blogs-grid" id="blogs-list-public">
-        <p style="text-align: center; grid-column: 1 / -1;">Loading blogs...</p>
+        <!-- Blogs will be loaded here by JavaScript -->
+        <p style="text-align: center; grid-column: 1 / -1; font-size: 1.2rem;">Loading blogs...</p>
       </div>
     </section>
 
     <footer class="footer-section">
-  <div class="footer-container">
-
-    <!-- About Us -->
-    <div class="footer-column">
-      <h3>About Us</h3>
-      <div class="footer-line"></div>
-      <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
-      <div class="footer-social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-google-plus-g"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-vimeo-v"></i></a>
-        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+      <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+          <h3>About Us</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod tempor incididunt ut labore dolore magna.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-vimeo-v"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="footer-line"></div>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Contact.html">About Us</a></li>
+            <li><a href="Service.html">Services</a></li>
+            <li><a href="#">Our Cases</a></li>
+            <li><a href="#">Other Links</a></li>
+            <li><a href="Appoinment.html">Appoinment</a></li>
+            <li><a href="#">Finance</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Open Hours -->
+        <div class="footer-column">
+          <h3>Open Hours</h3>
+          <div class="footer-line"></div>
+          <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
+          <ul class="open-hours">
+            <li><span>Monday - Friday:</span> 8.00–20.00</li>
+            <li><span>Saturday:</span> 9.00–18.30</li>
+            <li><span>Monday - Thursday:</span> 9.00–15.00</li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+        <div class="footer-column">
+          <h3>Newsletter</h3>
+          <div class="footer-line"></div>
+          <p>Subscribe to our newsletter to get all our news in your inbox.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Email Address" required>
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
       </div>
-    </div>
-
-    <!-- Quick Links -->
-    <div class="footer-column">
-      <h3>Quick Links</h3>
-      <div class="footer-line"></div>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="Contact.html">About Us</a></li>
-        <li><a href="Service.html">Services</a></li>
-        <li><a href="#">Our Cases</a></li>
-        <li><a href="#">Other Links</a></li>
-        <li><a href="Appoinment.html">Appoinment</a></li>
-        <li><a href="#">Finance</a></li>
-        <li><a href="#">Testimonials</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="Contact.html">Contact Us</a></li>
-      </ul>
-    </div>
-
-    <!-- Open Hours -->
-    <div class="footer-column">
-      <h3>Open Hours</h3>
-      <div class="footer-line"></div>
-      <p>Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod tempor incididunt.</p>
-      <ul class="open-hours">
-        <li><span>Monday - Friday:</span> 8.00–20.00</li>
-        <li><span>Saturday:</span> 9.00–18.30</li>
-        <li><span>Monday - Thursday:</span> 9.00–15.00</li>
-      </ul>
-    </div>
-
-    <!-- Newsletter -->
-    <div class="footer-column">
-      <h3>Newsletter</h3>
-      <div class="footer-line"></div>
-      <p>Subscribe to our newsletter to get all our news in your inbox.</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Email Address" required>
-        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-      </form>
-    </div>
-
-  </div>
-</footer>
+    </footer>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', async function () {
         const blogsListContainer = document.getElementById('blogs-list-public');
-        const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
-        blogsListContainer.innerHTML = '';
+        const API_URL = 'https://doctor-app-backend-4pvo.onrender.com'; // Your backend URL
 
-        if (blogs.length === 0) {
-          blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No blog posts have been added yet.</p>';
-        } else {
-          blogs.forEach(blog => {
-            const blogCardHTML = `
-              <div class="blog-card">
-                <img src="${blog.image}" alt="Blog Image for ${blog.title}">
-                <div class="blog-content">
-                  <div class="blog-date">${blog.date}</div>
-                  
-                  <!-- UPDATE: Title ab ek link hai -->
-                  <div class="blog-title"><a href="blog-detail.html?id=${blog.id}">${blog.title}</a></div>
-                  
-                  <div class="blog-desc">${blog.excerpt}</div>
-                </div>
-              </div>
-            `;
-            blogsListContainer.innerHTML += blogCardHTML;
-          });
+        try {
+            const response = await fetch(`${API_URL}/api/blogs`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const blogs = await response.json();
+
+            // Clear the "Loading..." message
+            blogsListContainer.innerHTML = '';
+
+            if (blogs.length === 0) {
+                blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No blog posts have been added yet.</p>';
+            } else {
+                blogs.forEach(blog => {
+                    // Format the date to be more readable
+                    const postDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    const blogCardHTML = `
+                      <div class="blog-card">
+                        <img src="${blog.imageUrl || 'https://placehold.co/600x400/f0f0f0/999?text=Blog+Image'}" alt="Image for ${blog.title}">
+                        <div class="blog-content">
+                          <div class="blog-date">${postDate}</div>
+                          <h3 class="blog-title"><a href="blog-detail.html?id=${blog._id}">${blog.title}</a></h3>
+                          <p class="blog-desc">${blog.excerpt}</p>
+                        </div>
+                      </div>
+                    `;
+                    blogsListContainer.innerHTML += blogCardHTML;
+                });
+            }
+        } catch (error) {
+            console.error("Failed to load blogs:", error);
+            blogsListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: red;">Could not load blogs. Please try again later.</p>';
         }
       });
     </script>
