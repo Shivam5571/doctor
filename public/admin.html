@@ -21,17 +21,13 @@
         .comment-item { border-left: 2px solid #e5e7eb; }
         .comment-item .comment-item { margin-left: 1.5rem; }
     </style>
-    <!-- BUG FIX: Immediate authentication check before the page body loads -->
+    <!-- FIX: Using sessionStorage for temporary login -->
     <script>
-        // This script runs before the page content is rendered.
-        if (!localStorage.getItem('adminToken')) {
-            // If no token is found, redirect to the login page immediately.
-            // This prevents the admin panel from ever being displayed to an unauthorized user.
+        if (!sessionStorage.getItem('adminToken')) {
             window.location.replace(window.location.origin + '/admin-login.html');
         }
     </script>
 </head>
-<!-- The body no longer needs to be hidden, as the script in the head handles the redirect -->
 <body class="bg-gray-100">
 
     <!-- Sidebar -->
@@ -64,15 +60,14 @@
     <div id="doctor-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="doctor-modal-title" class="text-2xl font-semibold"></h2><button id="close-doctor-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><form id="doctor-form" class="space-y-4"></form></div></div>
     <div id="service-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="service-modal-title" class="text-2xl font-semibold"></h2><button id="close-service-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><form id="service-form" class="space-y-4"></form></div></div>
     <div id="blog-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-4xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="blog-modal-title" class="text-2xl font-semibold"></h2><button id="close-blog-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><form id="blog-form" class="space-y-4"></form></div></div>
-    <!-- NEW: Comments Modal -->
     <div id="comments-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 hidden z-30"><div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl my-8"><div class="flex justify-between items-center mb-6"><h2 id="comments-modal-title" class="text-2xl font-semibold">Manage Comments</h2><button id="close-comments-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><div id="comments-list-admin" class="space-y-4"></div></div></div>
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     
     <script>
-    // This main script will only run if the user is authenticated (checked in the head)
     document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('adminToken'); // Token is guaranteed to exist here
+        // FIX: Use sessionStorage to get the token
+        const token = sessionStorage.getItem('adminToken');
         
         const API_URL = 'https://doctor-app-backend-4pvo.onrender.com';
         const headers = {
@@ -93,7 +88,8 @@
         });
         
         document.getElementById('logoutButton').addEventListener('click', () => {
-            localStorage.removeItem('adminToken');
+            // FIX: Use sessionStorage to remove the token
+            sessionStorage.removeItem('adminToken');
             window.location.replace(window.location.origin + '/admin-login.html');
         });
 
@@ -101,7 +97,8 @@
             get: async (endpoint) => {
                 const response = await fetch(`${API_URL}/api/${endpoint}`, { headers: { 'Authorization': headers.Authorization } });
                 if (response.status === 401 || response.status === 403) {
-                    localStorage.removeItem('adminToken');
+                    // FIX: Use sessionStorage to remove the token
+                    sessionStorage.removeItem('adminToken');
                     window.location.replace(window.location.origin + '/admin-login.html');
                     throw new Error('Invalid token. Redirecting to login.');
                 }
@@ -119,6 +116,7 @@
             reader.onload = () => resolve(reader.result);
             reader.onerror = error => reject(error);
         });
+        
         
          // --- DASHBOARD ---
         const loadDashboardStats = async () => {
